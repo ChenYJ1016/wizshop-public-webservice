@@ -1,0 +1,1 @@
+# wizshop-public-webservice
