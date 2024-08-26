@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta charset="UTF-8">
+	    <title>wizShop</title>
+	    <link rel="stylesheet" href="/static/css/styles.css">
+	    <link rel="icon" href="/static/icon/favicon.ico" type="image/x-icon">
+	</head>
+	<body>
+	    <div class="navbar">
+	        <a href="#home">Home</a>
+	    </div>
+	
+	    <div class="container">
+			<div class="header-container">
+	        	<h1>Public</h1>
+	        	<form action="/shop/search" method="get">
+				    <input type="text" name="query" placeholder="Search products...">
+				    <button type="submit">Search</button>
+				</form>
+
+	    	</div>        
+	    	
+	    	<div class="product-container">
+	            <div class="product-card-container">
+	                <#list products as product>
+		                <div class="product-card"
+		                    data-product-id="${product.productId}"
+		                    data-product-name="${product.productName?html}"
+		                    data-product-description="${product.productDescription?html}"
+		                    data-product-price="${product.productPrice}"
+		                    data-product-quantity="${product.productQuantity}"
+		                    data-product-image-url="${product.productImageUrl?html}"
+		                    data-product-colour="${product.productColour?html}"
+		                    data-product-gender="${product.productGender?html}"
+		                    data-product-size="${product.productSize?html}"
+		                    data-product-category="${product.productCategory?html}"
+		                    onclick="openViewModal(this)">
+		                    <img src="${product.productImageUrl}" alt="${product.productName}">
+		                    <p>${product.productName}</p>
+		                  </div>
+	                </#list>
+	         	</div>       
+	    	</div>
+	    
+		    <!-- View Product Modal -->
+			<div id="viewModal" class="modal">
+			    <div class="modal-content">
+			        <span class="close" onclick="closeViewModal()">&times;</span>
+			        <h2>View Product</h2>
+			        <div class="form-group">
+			            <label for="viewProductName">Name:</label>
+			            <p id="viewProductName"></p>
+			        </div>
+			
+			        <div class="form-group">
+			            <label for="viewProductDescription">Description:</label>
+			            <p id="viewProductDescription"></p>
+			        </div>
+			
+			        <div class="form-group">
+			            <label for="viewProductPrice">Price:</label>
+			            <p id="viewProductPrice"></p>
+			        </div>
+			
+			        <div class="form-group">
+			            <label for="viewProductQuantity">Stock:</label>
+			            <p id="viewProductQuantity"></p>
+			        </div>
+			
+			        <div class="form-group">
+			            <label for="viewProductColour">Colour:</label>
+			            <p id="viewProductColour"></p>
+			        </div>
+			
+			        <div class="form-group">
+			            <label for="viewProductGender">Gender:</label>
+			            <p id="viewProductGender"></p>
+			        </div>
+			
+			        <div class="form-group">
+			            <label for="viewProductSize">Size:</label>
+			            <p id="viewProductSize"></p>
+			        </div>
+			
+			        <div class="form-group">
+			            <label for="viewProductCategory">Category:</label>
+			            <p id="viewProductCategory"></p>
+			        </div>
+			    </div>
+			</div>
+	    </div>
+	    
+	    <!-- View Product Modal -->
+		<div id="viewModal" class="modal">
+		    <div class="modal-content">
+		        <span class="close" onclick="closeViewModal()">&times;</span>
+		        <h2>View Product</h2>
+		        <div class="form-group">
+		            <label for="viewProductName">Name:</label>
+		            <p id="viewProductName"></p>
+		        </div>
+		
+		        <div class="form-group">
+		            <label for="viewProductDescription">Description:</label>
+		            <p id="viewProductDescription"></p>
+		        </div>
+		
+		        <div class="form-group">
+		            <label for="viewProductPrice">Price:</label>
+		            <p id="viewProductPrice"></p>
+		        </div>
+		
+		        <div class="form-group">
+		            <label for="viewProductQuantity">Stock:</label>
+		            <p id="viewProductQuantity"></p>
+		        </div>
+		
+		        <div class="form-group">
+		            <label for="viewProductColour">Colour:</label>
+		            <p id="viewProductColour"></p>
+		        </div>
+		
+		        <div class="form-group">
+		            <label for="viewProductGender">Gender:</label>
+		            <p id="viewProductGender"></p>
+		        </div>
+		
+		        <div class="form-group">
+		            <label for="viewProductSize">Size:</label>
+		            <p id="viewProductSize"></p>
+		        </div>
+		
+		        <div class="form-group">
+		            <label for="viewProductCategory">Category:</label>
+		            <p id="viewProductCategory"></p>
+		        </div>
+		    </div>
+		</div>
+	    <script src="/static/js/scripts.js"></script>
+	
+	</body>
+</html>
