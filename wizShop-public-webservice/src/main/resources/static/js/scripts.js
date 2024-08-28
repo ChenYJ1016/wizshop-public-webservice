@@ -26,4 +26,12 @@ function closeViewModal() {
     document.getElementById('viewModal').style.display = 'none';
 }
 
+document.getElementById('filterButton').addEventListener('click', function() {
+    const filterOptions = document.getElementById('filterOptions');
+    if (filterOptions.style.display === 'none' || filterOptions.style.display === '') {
+        filterOptions.style.display = 'block';
+    } else {
+        filterOptions.style.display = 'none';
+    }
+});
 

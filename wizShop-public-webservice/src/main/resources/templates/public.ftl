@@ -20,7 +20,47 @@
                     <i class="fa fa-search"></i>
                 </button>
             </form>
+            
+            <button id="filterButton" class="filter-button">Filter</button>
         </div>        
+        
+        <div id="filterOptions" class="filter-options">
+		    <form action="/shop/search" method="get">
+			    <label for="productCategory">Category:</label>
+			    <div>
+			        <input type="checkbox" name="productCategory" value="Shirts"> Shirts<br>
+			        <input type="checkbox" name="productCategory" value="Pants"> Pants<br>
+			        <input type="checkbox" name="productCategory" value="Shoes"> Shoes<br>
+			        <input type="checkbox" name="productCategory" value="Skirts"> Skirts<br>
+			        <input type="checkbox" name="productCategory" value="Shorts"> Shorts<br>
+			        <!-- Add more categories as needed -->
+			    </div>
+			
+			    <label for="productColour">Colour:</label>
+			    <div>
+			        <input type="checkbox" name="productColour" value="Red"> Red<br>
+			        <input type="checkbox" name="productColour" value="Blue"> Blue<br>
+			        <input type="checkbox" name="productColour" value="Green"> Green<br>
+			        <!-- Add more colors as needed -->
+			    </div>
+			
+			    <label for="productGender">Gender:</label>
+			    <div>
+			        <input type="checkbox" name="productGender" value="Male"> Male<br>
+			        <input type="checkbox" name="productGender" value="Female"> Female<br>
+			        <input type="checkbox" name="productGender" value="Unisex"> Unisex<br>
+			    </div>
+			
+			    <label for="minPrice">Min Price:</label>
+			    <input type="number" name="minPrice" step="0.01">
+			
+			    <label for="maxPrice">Max Price:</label>
+			    <input type="number" name="maxPrice" step="0.01">
+			
+			    <button type="submit">Apply Filters</button>
+			</form>
+
+		</div>
 
         <div class="product-container">
             <div class="product-card-container">

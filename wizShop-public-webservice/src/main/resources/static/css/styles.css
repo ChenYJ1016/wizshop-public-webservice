@@ -155,3 +155,44 @@ body {
 .form-group p {
     margin: 0;
 }
+
+.filter-button {
+    padding: 10px;
+    margin-left: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.filter-button:hover {
+    background-color: #555;
+}
+
+.filter-options {
+    display: none; /* Initially hidden */
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.filter-options form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.filter-options label {
+    flex: 1 0 100px;
+}
+
+.filter-options select, 
+.filter-options input {
+    flex: 1 0 200px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}

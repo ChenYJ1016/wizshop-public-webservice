@@ -73,22 +73,50 @@ public class PublicController {
     }
     
     @GetMapping("/search")
-    public String searchProducts(@RequestParam("query") String query, Model model) {
+    public String searchProducts(
+            @RequestParam(value = "query", required = false) String query,
+            @RequestParam(value = "productCategory", required = false) List<String> productCategory,
+            @RequestParam(value = "minPrice", required = false, defaultValue = "0") Double minPrice,
+            @RequestParam(value = "maxPrice", required = false, defaultValue = "0") Double maxPrice,
+            @RequestParam(value = "productColour", required = false) List<String> productColour,
+            @RequestParam(value = "productGender", required = false) List<String> productGender,
+            Model model) {
         try {
             HttpHeaders headers = new HttpHeaders();
             HttpEntity<String> entity = new HttpEntity<>(headers);
 
-            String url = UriComponentsBuilder.fromHttpUrl(properties.getCommonRepoUrl() + "/api/products/search")
-                    .queryParam("query", query)
-                    .toUriString();
+            UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(properties.getCommonRepoUrl() + "/api/products/search")
+                    .queryParam("query", query);
 
+            
+            if (maxPrice != null && maxPrice > 0 && !maxPrice.isInfinite() && !maxPrice.isNaN()) {
+            	uriBuilder.queryParam("maxPrice", maxPrice);
+            }
+            
+            if (minPrice!= null && minPrice > 0) {
+            	uriBuilder.queryParam("minPrice", minPrice);
+            }
+
+            if (productCategory != null && !productCategory.isEmpty()) {
+                uriBuilder.queryParam("productCategory", String.join(",", productCategory));
+            }
+            if (productColour != null && !productColour.isEmpty()) {
+                uriBuilder.queryParam("productColour", String.join(",", productColour));
+            }
+            if (productGender != null && !productGender.isEmpty()) {
+                uriBuilder.queryParam("productGender", String.join(",", productGender));
+            }
+
+            String url = uriBuilder.toUriString();
             ResponseEntity<List<Products>> response = restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<List<Products>>() {});
             List<Products> products = response.getBody();
-            model.addAttribute("products", products);
 
-            return "public";  
+            model.addAttribute("products", products);
+            return "public";
         } catch (Exception e) {
+            logger.error("Error in searchProducts", e);
             return "error";
         }
     }
+
 }
