@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>wizShop</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="icon" href="/static/icon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="navbar">
+        <a href="/shop/">Home</a>
+    </div>
+
+    <div class="container">
+        <div class="header-container">
+            <form action="/shop/search" method="get" class="search-container">
+                <input type="text" name="query" placeholder="Search products...">
+                <button type="submit">                   
+                    <i class="fa fa-search"></i>
+                </button>
+            </form>
+            
+            <button id="filterButton" class="filter-button">Filter</button>
+        </div>        
+        
+        <div id="filterOptions" class="filter-options">
+		    <form action="/shop/search" method="get">
+			    <label for="productCategory">Category:</label>
+			    <div>
+			        <input type="checkbox" name="productCategory" value="Shirts"> Shirts<br>
+			        <input type="checkbox" name="productCategory" value="Pants"> Pants<br>
+			        <input type="checkbox" name="productCategory" value="Shoes"> Shoes<br>
+			        <input type="checkbox" name="productCategory" value="Skirts"> Skirts<br>
+			        <input type="checkbox" name="productCategory" value="Shorts"> Shorts<br>
+			        <!-- Add more categories as needed -->
+			    </div>
+			
+			    <label for="productColour">Colour:</label>
+			    <div>
+			        <input type="checkbox" name="productColour" value="Red"> Red<br>
+			        <input type="checkbox" name="productColour" value="Blue"> Blue<br>
+			        <input type="checkbox" name="productColour" value="Green"> Green<br>
+			        <!-- Add more colors as needed -->
+			    </div>
+			
+			    <label for="productGender">Gender:</label>
+			    <div>
+			        <input type="checkbox" name="productGender" value="Male"> Male<br>
+			        <input type="checkbox" name="productGender" value="Female"> Female<br>
+			        <input type="checkbox" name="productGender" value="Unisex"> Unisex<br>
+			    </div>
+			
+			    <label for="minPrice">Min Price:</label>
+			    <input type="number" name="minPrice" step="0.01">
+			
+			    <label for="maxPrice">Max Price:</label>
+			    <input type="number" name="maxPrice" step="0.01">
+			
+			    <button type="submit">Apply Filters</button>
+			</form>
+
+		</div>
+
+        <div class="product-container">
+            <div class="product-card-container">
+                <#list products as product>
+                    <div class="product-card"
+                        data-product-id="${product.productId}"
+                        data-product-name="${product.productName?html}"
+                        data-product-description="${product.productDescription?html}"
+                        data-product-price="${product.productPrice}"
+                        data-product-quantity="${product.productQuantity}"
+                        data-product-image-url="${product.productImageUrl?html}"
+                        data-product-colour="${product.productColour?html}"
+                        data-product-gender="${product.productGender?html}"
+                        data-product-size="${product.productSize?html}"
+                        data-product-category="${product.productCategory?html}"
+                        onclick="openViewModal(this)">
+                        <img src="${product.productImageUrl}" alt="${product.productName}">
+                        <p>${product.productName}</p>
+                      </div>
+                </#list>
+            </div>       
+        </div>
+
+        <!-- View Product Modal -->
+		<div id="viewModal" class="modal">
+		    <div class="modal-content">
+		        <span class="close" onclick="closeViewModal()">&times;</span>
+		        <h2>View Product</h2>
+		        <div class="form-group">
+		            <label for="viewProductName">Name:</label>
+		            <p id="viewProductName"></p>
+		        </div>
+		
+		        <div class="form-group">
+		            <label for="viewProductDescription">Description:</label>
+		            <p id="viewProductDescription"></p>
+		        </div>
+		
+		        <div class="form-group">
+		            <label for="viewProductPrice">Price:</label>
+		            <p id="viewProductPrice"></p>
+		        </div>
+		
+		        <div class="form-group">
+		            <label for="viewProductQuantity">Stock:</label>
+		            <p id="viewProductQuantity"></p>
+		        </div>
+		
+		        <div class="form-group">
+		            <label for="viewProductColour">Colour:</label>
+		            <p id="viewProductColour"></p>
+		        </div>
+		
+		        <div class="form-group">
+		            <label for="viewProductGender">Gender:</label>
+		            <p id="viewProductGender"></p>
+		        </div>
+		
+		        <div class="form-group">
+		            <label for="viewProductSize">Size:</label>
+		            <p id="viewProductSize"></p>
+		        </div>
+		
+		        <div class="form-group">
+		            <label for="viewProductCategory">Category:</label>
+		            <p id="viewProductCategory"></p>
+		        </div>
+		    </div>
+		</div>
+    
+    <script src="/static/js/scripts.js"></script>
+</body>
+</html>
