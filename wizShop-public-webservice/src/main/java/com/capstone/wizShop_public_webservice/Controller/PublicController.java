@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.capstone.wizShop_public_webservice.DTO.Products;
+import com.capstone.wizShop_public_webservice.DTO.ProductsDTO;
 import com.capstone.wizShop_public_webservice.Properties.Properties;
 
 
@@ -55,19 +55,19 @@ public class PublicController {
     @GetMapping("/")
     public String viewPublicPage(Model model) {
         try {
-                HttpHeaders headers = new HttpHeaders();
-
-                HttpEntity<String> entity = new HttpEntity<>(headers);
-
-                String url = UriComponentsBuilder.fromHttpUrl(properties.getCommonRepoUrl() + "/api/products/").toUriString();
-                ResponseEntity<List<Products>> response = restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<List<Products>>() {});
-
-                List<Products> products = response.getBody();
-                model.addAttribute("products", products);
+	        	HttpHeaders headers = new HttpHeaders();
+	
+	            HttpEntity<String> entity = new HttpEntity<>(headers);
+	
+	            String url = UriComponentsBuilder.fromHttpUrl(properties.getCommonRepoUrl() + "/api/products/").toUriString();
+	            ResponseEntity<List<ProductsDTO>> response = restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<List<ProductsDTO>>() {});
+	
+	            List<ProductsDTO> products = response.getBody();
+	            model.addAttribute("products", products);
                 return "public";
 
         } catch (Exception e) {
-            logger.error("Error in viewAdminPage", e);
+            logger.error("Error in viewPublicPage", e);
             return "error";
         }
     }
@@ -108,8 +108,8 @@ public class PublicController {
             }
 
             String url = uriBuilder.toUriString();
-            ResponseEntity<List<Products>> response = restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<List<Products>>() {});
-            List<Products> products = response.getBody();
+            ResponseEntity<List<ProductsDTO>> response = restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<List<ProductsDTO>>() {});
+            List<ProductsDTO> products = response.getBody();
 
             model.addAttribute("products", products);
             return "public";

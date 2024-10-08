@@ -67,18 +67,25 @@
                 <#list products as product>
                     <div class="product-card"
                         data-product-id="${product.productId}"
-                        data-product-name="${product.productName?html}"
-                        data-product-description="${product.productDescription?html}"
-                        data-product-price="${product.productPrice}"
-                        data-product-quantity="${product.productQuantity}"
-                        data-product-image-url="${product.productImageUrl?html}"
-                        data-product-colour="${product.productColour?html}"
-                        data-product-gender="${product.productGender?html}"
-                        data-product-size="${product.productSize?html}"
-                        data-product-category="${product.productCategory?html}"
-                        onclick="openViewModal(this)">
-                        <img src="${product.productImageUrl}" alt="${product.productName}">
-                        <p>${product.productName}</p>
+					    data-product-name="${product.productName?html}"
+					    data-product-description="${product.productDescription?html}"
+					    data-product-price="${product.productPrice}"
+					    data-product-image-url="${product.productImageUrl?html}"
+					    data-product-colour="${product.productColour?html}"
+					    data-product-gender="${product.productGender?html}"
+					    data-product-category="${product.productCategory?html}"
+					    data-product-size-quantities="
+					        <#assign sizeQuantitiesString=''>
+					        <#list product.sizeQuantities as sq>
+					            <#if sq_has_next>
+					                <#assign sizeQuantitiesString += sq.size?trim + ':' + sq.quantity + ';'>
+					            <#else>
+					                <#assign sizeQuantitiesString += sq.size?trim + ':' + sq.quantity>
+					            </#if>
+					        </#list>
+					        ${sizeQuantitiesString}">
+					    <img src="${product.productImageUrl}" alt="${product.productName}" onclick="openViewModal(this.parentElement)">
+					    <p>${product.productName}</p>
                       </div>
                 </#list>
             </div>       
@@ -105,11 +112,6 @@
 		        </div>
 		
 		        <div class="form-group">
-		            <label for="viewProductQuantity">Stock:</label>
-		            <p id="viewProductQuantity"></p>
-		        </div>
-		
-		        <div class="form-group">
 		            <label for="viewProductColour">Colour:</label>
 		            <p id="viewProductColour"></p>
 		        </div>
@@ -120,13 +122,13 @@
 		        </div>
 		
 		        <div class="form-group">
-		            <label for="viewProductSize">Size:</label>
-		            <p id="viewProductSize"></p>
+		            <label for="viewProductCategory">Category:</label>
+		            <p id="viewProductCategory"></p>
 		        </div>
 		
 		        <div class="form-group">
-		            <label for="viewProductCategory">Category:</label>
-		            <p id="viewProductCategory"></p>
+		            <label for="viewProductSizeQuantities">Sizes & Quantities:</label>
+		            <ul id="viewProductSizeQuantities"></ul>
 		        </div>
 		    </div>
 		</div>

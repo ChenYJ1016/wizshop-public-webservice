@@ -1,21 +1,22 @@
 package com.capstone.wizShop_public_webservice.DTO;
 
+import java.util.List;
+
 public class ProductEventPayload {
 
-    private String productId;
+    private Long productId;
     private String productName;
     private String productDescription;
     private Double productPrice;
-    private Integer productQuantity;
     private String productImageFileName;
     private String productColour;
     private String productGender;
-    private String productSize;
     private String productCategory;
+    private List<SizeQuantities> sizeQuantities;
 
     // Getters and Setters
-    public String getProductId() { return productId; }
-    public void setProductId(String productId) { this.productId = productId; }
+    public Long getProductId() { return productId; }
+    public void setProductId(Long productId) { this.productId = productId; }
 
     public String getProductName() { return productName; }
     public void setProductName(String productName) { this.productName = productName; }
@@ -26,9 +27,6 @@ public class ProductEventPayload {
     public Double getProductPrice() { return productPrice; }
     public void setProductPrice(Double productPrice) { this.productPrice = productPrice; }
 
-    public Integer getProductQuantity() { return productQuantity; }
-    public void setProductQuantity(Integer productQuantity) { this.productQuantity = productQuantity; }
-
     public String getProductImageFileName() { return productImageFileName; }
     public void setProductImageFileName(String productImageFileName) { this.productImageFileName = productImageFileName; }
 
@@ -38,9 +36,11 @@ public class ProductEventPayload {
     public String getProductGender() { return productGender; }
     public void setProductGender(String productGender) { this.productGender = productGender; }
 
-    public String getProductSize() { return productSize; }
-    public void setProductSize(String productSize) { this.productSize = productSize; }
-
     public String getProductCategory() { return productCategory; }
     public void setProductCategory(String productCategory) { this.productCategory = productCategory; }
+	
+    public List<SizeQuantities> getSizeQuantities() { return sizeQuantities; }
+	public void setSizeQuantities(List<SizeQuantities> sizeQuantities) { this.sizeQuantities = sizeQuantities; }
+    
+    
 }
