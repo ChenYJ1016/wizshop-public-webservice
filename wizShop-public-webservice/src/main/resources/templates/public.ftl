@@ -95,7 +95,6 @@
 		<div id="viewModal" class="modal">
 		    <div class="modal-content">
 		        <span class="close" onclick="closeViewModal()">&times;</span>
-		        <h2>View Product</h2>
 		        <div class="form-group">
 		            <label for="viewProductName">Name:</label>
 		            <p id="viewProductName"></p>
@@ -133,6 +132,6 @@
 		    </div>
 		</div>
     
-    <script src="/static/js/scripts.js"></script>
+    <script src="/static/js/public.js"></script>
 </body>
 </html>
