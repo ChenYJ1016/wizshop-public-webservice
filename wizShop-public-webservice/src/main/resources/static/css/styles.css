@@ -9,6 +9,10 @@ body {
 .navbar {
     background-color: #333;
     overflow: hidden;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    padding: 0 20px; 
 }
 
 .navbar a {
@@ -186,7 +190,7 @@ body {
 }
 
 .filter-options {
-    display: none; /* Initially hidden */
+    display: none; 
     margin-top: 20px;
     background-color: #f9f9f9;
     padding: 20px;
@@ -235,7 +239,7 @@ body {
 .cart-sidebar {
     position: fixed;
     top: 0;
-    right: -300px; /* Hidden by default, will slide in */
+    right: -400px; 
     width: 300px;
     height: 100%;
     background-color: #f9f9f9;
@@ -270,14 +274,24 @@ body {
     right: 0;
 }
 
-/* Cart Toggle Button */
+.close-cart {
+    float: right; 
+    font-size: 24px; 
+    cursor: pointer; 
+    color: #333; 
+}
+
+.close-cart:hover {
+    color: red; 
+}
+
 .cart-toggle-btn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
     background-color: #333;
     color: white;
     padding: 10px;
     border-radius: 50%;
     cursor: pointer;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
 }

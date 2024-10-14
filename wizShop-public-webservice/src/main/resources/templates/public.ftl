@@ -10,6 +10,11 @@
 <body>
     <div class="navbar">
         <a href="/shop/">Home</a>
+        
+        <!-- Cart Toggle Button -->
+	    <div class="cart-toggle-btn" onclick="toggleCart()">
+	        <i class="fa fa-shopping-cart"></i>
+	    </div>
     </div>
 
     <div class="container">
@@ -29,7 +34,7 @@
 			    <label for="productCategory">Category:</label>
 			    <div>
 			        <input type="checkbox" name="productCategory" value="Shirts"> Shirts<br>
-			        <input type="checkbox" name="productCategory" value="Pants"> Pants<br>
+			        <input type="checkbox" name="productCategory" value="Hats"> Hats<br>
 			        <input type="checkbox" name="productCategory" value="Shoes"> Shoes<br>
 			        <input type="checkbox" name="productCategory" value="Skirts"> Skirts<br>
 			        <input type="checkbox" name="productCategory" value="Shorts"> Shorts<br>
@@ -150,7 +155,10 @@
 
     <!-- Cart Sidebar -->
     <div id="cartSidebar" class="cart-sidebar">
-        <div class="cart-header">Your Cart</div>
+        <div class="cart-header">
+        	Your Cart
+	        <span class="close-cart" onclick="toggleCart()">&times;</span> <!-- Close button -->
+        </div>
         <div class="cart-items" id="cartItems">
             <!-- Cart items will be displayed here -->
         </div>
@@ -158,11 +166,6 @@
             <p>Total: <span id="cartTotal">0</span></p>
             <button>Checkout</button>
         </div>
-    </div>
-
-    <!-- Cart Toggle Button -->
-    <div class="cart-toggle-btn" onclick="toggleCart()">
-        <i class="fa fa-shopping-cart"></i>
     </div>
 
     <script src="/static/js/public.js"></script>

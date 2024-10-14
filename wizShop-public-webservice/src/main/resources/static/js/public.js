@@ -1,7 +1,6 @@
 // public.js
 
 let selectedSize = null;
-// Cart array to store the products added to the cart
 let cart = [];
 let totalAmount = 0;
 
@@ -23,7 +22,6 @@ function openViewModal(productCard) {
     const productCategory = productCard.getAttribute('data-product-category');
 	const sizeQuantities = productCard.getAttribute('data-product-size-quantities').split(';').map(sq => sq.trim());
 
-    // Populate the modal with product details
     document.getElementById('viewProductName').textContent = productName;
     document.getElementById('viewProductDescription').textContent = productDescription;
     document.getElementById('viewProductPrice').textContent = productPrice;
@@ -31,10 +29,9 @@ function openViewModal(productCard) {
     document.getElementById('viewProductGender').textContent = productGender;
     document.getElementById('viewProductCategory').textContent = productCategory;
 
-    // Create size buttons
     const sizeQuantitiesContainer = document.getElementById('viewProductSizeQuantities');
-    sizeQuantitiesContainer.innerHTML = ''; // Clear previous sizes
-    selectedSize = null; // Reset selected size
+    sizeQuantitiesContainer.innerHTML = ''; 
+    selectedSize = null; 
 
     sizeQuantities.forEach(sizeQuantity => {
         const [size, quantity] = sizeQuantity.split(':');
@@ -48,7 +45,6 @@ function openViewModal(productCard) {
         }
     });
 
-    // Show the modal
     document.getElementById('viewModal').style.display = 'block';
 }
 
@@ -68,7 +64,6 @@ function addToCart() {
     const productName = document.getElementById('viewProductName').textContent;
     const productPrice = parseFloat(document.getElementById('viewProductPrice').textContent.replace('$', ''));
 
-    // Check if a size has been selected
     if (!selectedSize) {
         alert('Please select a size.');
         return;
@@ -76,7 +71,7 @@ function addToCart() {
 
     const product = {
         name: productName,
-        size: selectedSize,  // Use the globally set selectedSize
+        size: selectedSize,  
         quantity: parseInt(quantity),
         price: productPrice
     };
@@ -87,7 +82,6 @@ function addToCart() {
 }
 
 
-// Function to update the cart UI
 function updateCart() {
     const cartItems = document.getElementById('cartItems');
     const cartTotal = document.getElementById('cartTotal');
@@ -116,7 +110,6 @@ function updateCart() {
 }
 
 
-// Function to toggle the cart sidebar
 function toggleCart() {
     const cartSidebar = document.getElementById('cartSidebar');
     cartSidebar.classList.toggle('show-cart');
