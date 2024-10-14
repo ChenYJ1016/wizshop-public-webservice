@@ -212,3 +212,21 @@ body {
     border: 1px solid #ddd;
     border-radius: 4px;
 }
+
+/* size and quantity */
+.size-options button {
+    margin: 5px;
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+
+.size-options button.selected {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.size-options button:hover {
+    background-color: #ddd;
+}
