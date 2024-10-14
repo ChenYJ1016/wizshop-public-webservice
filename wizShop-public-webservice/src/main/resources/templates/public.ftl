@@ -16,15 +16,15 @@
         <div class="header-container">
             <form action="/shop/search" method="get" class="search-container">
                 <input type="text" name="query" placeholder="Search products...">
-                <button type="submit">                   
+                <button id="searchButton" type="submit">                   
                     <i class="fa fa-search"></i>
                 </button>
             </form>
             
             <button id="filterButton" class="filter-button">Filter</button>
-        </div>        
+        </div>       
         
-        <div id="filterOptions" class="filter-options">
+      	<div id="filterOptions" class="filter-options">
 		    <form action="/shop/search" method="get">
 			    <label for="productCategory">Category:</label>
 			    <div>
@@ -61,88 +61,110 @@
 			
 			    <button type="submit">Apply Filters</button>
 			</form>
-
-		</div>
-
+		</div> 
+        
+        <!-- Product Cards -->
         <div class="product-container">
             <div class="product-card-container">
                 <#list products as product>
                     <div class="product-card"
-                        data-product-id="${product.productId}"
-					    data-product-name="${product.productName?html}"
-					    data-product-description="${product.productDescription?html}"
-					    data-product-price="${product.productPrice}"
-					    data-product-image-url="${product.productImageUrl?html}"
-					    data-product-colour="${product.productColour?html}"
-					    data-product-gender="${product.productGender?html}"
-					    data-product-category="${product.productCategory?html}"
-					    data-product-size-quantities="
-					        <#assign sizeQuantitiesString=''>
-					        <#list product.sizeQuantities as sq>
-					            <#if sq_has_next>
-					                <#assign sizeQuantitiesString += sq.size?trim + ':' + sq.quantity + ';'>
-					            <#else>
-					                <#assign sizeQuantitiesString += sq.size?trim + ':' + sq.quantity>
-					            </#if>
-					        </#list>
-					        ${sizeQuantitiesString}">
-					    <img src="${product.productImageUrl}" alt="${product.productName}" onclick="openViewModal(this.parentElement)">
-					    <p>${product.productName}</p>
-                      </div>
+                         data-product-id="${product.productId}"
+                         data-product-name="${product.productName?html}"
+                         data-product-description="${product.productDescription?html}"
+                         data-product-price="${product.productPrice}"
+                         data-product-image-url="${product.productImageUrl?html}"
+                         data-product-colour="${product.productColour?html}"
+                         data-product-gender="${product.productGender?html}"
+                         data-product-category="${product.productCategory?html}"
+                         data-product-size-quantities="
+                             <#assign sizeQuantitiesString=''>
+                             <#list product.sizeQuantities as sq>
+                                 <#if sq_has_next>
+                                     <#assign sizeQuantitiesString += sq.size?trim + ':' + sq.quantity + ';'>
+                                 <#else>
+                                     <#assign sizeQuantitiesString += sq.size?trim + ':' + sq.quantity>
+                                 </#if>
+                             </#list>
+                             ${sizeQuantitiesString}">
+                        <img src="${product.productImageUrl}" alt="${product.productName}" onclick="openViewModal(this.parentElement)">
+                        <p>${product.productName}</p>
+                    </div>
                 </#list>
-            </div>       
+            </div>
         </div>
 
         <!-- View Product Modal -->
-		<div id="viewModal" class="modal">
-		    <div class="modal-content">
-		        <span class="close" onclick="closeViewModal()">&times;</span>
-		        
-		        <div class="form-group">
-		            <label for="viewProductName">Name:</label>
-		            <p id="viewProductName"></p>
-		        </div>
-		
-		        <div class="form-group">
-		            <label for="viewProductDescription">Description:</label>
-		            <p id="viewProductDescription"></p>
-		        </div>
-		
-		        <div class="form-group">
-		            <label for="viewProductPrice">Price:</label>
-		            <p id="viewProductPrice"></p>
-		        </div>
-		
-		        <div class="form-group">
-		            <label for="viewProductColour">Colour:</label>
-		            <p id="viewProductColour"></p>
-		        </div>
-		
-		        <div class="form-group">
-		            <label for="viewProductGender">Gender:</label>
-		            <p id="viewProductGender"></p>
-		        </div>
-		
-		        <div class="form-group">
-		            <label for="viewProductCategory">Category:</label>
-		            <p id="viewProductCategory"></p>
-		        </div>
-		
-		        <div class="form-group">
-		            <label for="viewProductSizeQuantities">Select Size:</label>
-		            <div id="viewProductSizeQuantities" class="size-options"></div>
-		        </div>
-		
-		        <div class="form-group">
-		            <label for="productQuantity">Quantity:</label>
-		            <input type="number" id="productQuantity" min="1" value="1">
-		        </div>
-		
-		        <button id="addToCartButton" onclick="addToCart()">Add to Cart</button>
-		    </div>
-		</div>
+        <div id="viewModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeViewModal()">&times;</span>
+                
+                <div class="form-group">
+                    <label for="viewProductName">Name:</label>
+                    <p id="viewProductName"></p>
+                </div>
 
-    
+                <div class="form-group">
+                    <label for="viewProductDescription">Description:</label>
+                    <p id="viewProductDescription"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="viewProductPrice">Price:</label>
+                    <p id="viewProductPrice"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="viewProductColour">Colour:</label>
+                    <p id="viewProductColour"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="viewProductGender">Gender:</label>
+                    <p id="viewProductGender"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="viewProductCategory">Category:</label>
+                    <p id="viewProductCategory"></p>
+                </div>
+
+                <!-- Size and Quantity Selection -->
+                <div class="form-group size-options">
+                    <label for="viewProductSizeQuantities">Sizes & Quantities:</label>
+                    <div id="viewProductSizeQuantities"></div>
+                </div>
+
+                <!-- Quantity Input -->
+                <div class="form-group">
+                    <label for="productQuantity">Quantity:</label>
+                    <input type="number" id="productQuantity" value="1" min="1">
+                </div>
+
+                <!-- Add to Cart Button -->
+                <div class="form-group">
+                    <button onclick="addToCart()">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div id="cartSidebar" class="cart-sidebar">
+        <div class="cart-header">Your Cart</div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be displayed here -->
+        </div>
+        <div class="cart-footer">
+            <p>Total: <span id="cartTotal">0</span></p>
+            <button>Checkout</button>
+        </div>
+    </div>
+
+    <!-- Cart Toggle Button -->
+    <div class="cart-toggle-btn" onclick="toggleCart()">
+        <i class="fa fa-shopping-cart"></i>
+    </div>
+
     <script src="/static/js/public.js"></script>
 </body>
 </html>

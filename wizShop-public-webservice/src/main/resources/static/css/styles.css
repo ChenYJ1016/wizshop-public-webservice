@@ -32,7 +32,6 @@ body {
     flex-direction: column;
 }
 
-
 .header-container {
     width: 100%;
     display: flex;
@@ -173,8 +172,8 @@ body {
 
 /* Filter */
 .filter-button {
-    padding: 10px;
-    margin-left: 10px;
+    padding: 20px;
+    margin-right: 50px;
     background-color: #333;
     color: #fff;
     border: none;
@@ -229,4 +228,56 @@ body {
 
 .size-options button:hover {
     background-color: #ddd;
+}
+
+
+/* Cart Sidebar */
+.cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: -300px; /* Hidden by default, will slide in */
+    width: 300px;
+    height: 100%;
+    background-color: #f9f9f9;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    transition: right 0.3s;
+}
+
+.cart-header {
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.cart-items {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.cart-item {
+    margin-bottom: 10px;
+}
+
+.cart-footer {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.show-cart {
+    right: 0;
+}
+
+/* Cart Toggle Button */
+.cart-toggle-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
 }
