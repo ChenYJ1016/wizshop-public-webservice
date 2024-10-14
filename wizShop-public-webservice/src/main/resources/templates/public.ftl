@@ -25,126 +25,124 @@
         </div>        
         
         <div id="filterOptions" class="filter-options">
-            <form action="/shop/search" method="get">
-                <label for="productCategory">Category:</label>
-                <div>
-                    <input type="checkbox" name="productCategory" value="Shirts"> Shirts<br>
-                    <input type="checkbox" name="productCategory" value="Pants"> Pants<br>
-                    <input type="checkbox" name="productCategory" value="Shoes"> Shoes<br>
-                    <input type="checkbox" name="productCategory" value="Skirts"> Skirts<br>
-                    <input type="checkbox" name="productCategory" value="Shorts"> Shorts<br>
-                </div>
-            
-                <label for="productColour">Colour:</label>
-                <div>
-                    <input type="checkbox" name="productColour" value="Red"> Red<br>
-                    <input type="checkbox" name="productColour" value="Blue"> Blue<br>
-                    <input type="checkbox" name="productColour" value="Green"> Green<br>
-                    <input type="checkbox" name="productColour" value="Beige"> Beige<br>
-                </div>
-            
-                <label for="productGender">Gender:</label>
-                <div>
-                    <input type="checkbox" name="productGender" value="Male"> Male<br>
-                    <input type="checkbox" name="productGender" value="Female"> Female<br>
-                    <input type="checkbox" name="productGender" value="Unisex"> Unisex<br>
-                </div>
-            
-                <label for="minPrice">Min Price:</label>
-                <input type="number" name="minPrice" step="0.01">
-            
-                <label for="maxPrice">Max Price:</label>
-                <input type="number" name="maxPrice" step="0.01">
-            
-                <button type="submit">Apply Filters</button>
-            </form>
-        </div>
+		    <form action="/shop/search" method="get">
+			    <label for="productCategory">Category:</label>
+			    <div>
+			        <input type="checkbox" name="productCategory" value="Shirts"> Shirts<br>
+			        <input type="checkbox" name="productCategory" value="Pants"> Pants<br>
+			        <input type="checkbox" name="productCategory" value="Shoes"> Shoes<br>
+			        <input type="checkbox" name="productCategory" value="Skirts"> Skirts<br>
+			        <input type="checkbox" name="productCategory" value="Shorts"> Shorts<br>
+			        <!-- Add more categories as needed -->
+			    </div>
+			
+			    <label for="productColour">Colour:</label>
+			    <div>
+			        <input type="checkbox" name="productColour" value="Red"> Red<br>
+			        <input type="checkbox" name="productColour" value="Blue"> Blue<br>
+			        <input type="checkbox" name="productColour" value="Green"> Green<br>
+			   		<input type="checkbox" name="productColour" value="Beige"> Beige<br>
 
-        <!-- Product Cards -->
+			        <!-- Add more colors as needed -->
+			    </div>
+			
+			    <label for="productGender">Gender:</label>
+			    <div>
+			        <input type="checkbox" name="productGender" value="Male"> Male<br>
+			        <input type="checkbox" name="productGender" value="Female"> Female<br>
+			        <input type="checkbox" name="productGender" value="Unisex"> Unisex<br>
+			    </div>
+			
+			    <label for="minPrice">Min Price:</label>
+			    <input type="number" name="minPrice" step="0.01">
+			
+			    <label for="maxPrice">Max Price:</label>
+			    <input type="number" name="maxPrice" step="0.01">
+			
+			    <button type="submit">Apply Filters</button>
+			</form>
+
+		</div>
+
         <div class="product-container">
             <div class="product-card-container">
                 <#list products as product>
                     <div class="product-card"
-                         data-product-id="${product.productId}"
-                         data-product-name="${product.productName?html}"
-                         data-product-description="${product.productDescription?html}"
-                         data-product-price="${product.productPrice}"
-                         data-product-image-url="${product.productImageUrl?html}"
-                         data-product-colour="${product.productColour?html}"
-                         data-product-gender="${product.productGender?html}"
-                         data-product-category="${product.productCategory?html}"
-                         data-product-size-quantities="
-                             <#assign sizeQuantitiesString=''>
-                             <#list product.sizeQuantities as sq>
-                                 <#if sq_has_next>
-                                     <#assign sizeQuantitiesString += sq.size?trim + ':' + sq.quantity + ';'>
-                                 <#else>
-                                     <#assign sizeQuantitiesString += sq.size?trim + ':' + sq.quantity>
-                                 </#if>
-                             </#list>
-                             ${sizeQuantitiesString}">
-                        <img src="${product.productImageUrl}" alt="${product.productName}" onclick="openViewModal(this.parentElement)">
-                        <p>${product.productName}</p>
-                    </div>
+                        data-product-id="${product.productId}"
+					    data-product-name="${product.productName?html}"
+					    data-product-description="${product.productDescription?html}"
+					    data-product-price="${product.productPrice}"
+					    data-product-image-url="${product.productImageUrl?html}"
+					    data-product-colour="${product.productColour?html}"
+					    data-product-gender="${product.productGender?html}"
+					    data-product-category="${product.productCategory?html}"
+					    data-product-size-quantities="
+					        <#assign sizeQuantitiesString=''>
+					        <#list product.sizeQuantities as sq>
+					            <#if sq_has_next>
+					                <#assign sizeQuantitiesString += sq.size?trim + ':' + sq.quantity + ';'>
+					            <#else>
+					                <#assign sizeQuantitiesString += sq.size?trim + ':' + sq.quantity>
+					            </#if>
+					        </#list>
+					        ${sizeQuantitiesString}">
+					    <img src="${product.productImageUrl}" alt="${product.productName}" onclick="openViewModal(this.parentElement)">
+					    <p>${product.productName}</p>
+                      </div>
                 </#list>
-            </div>
+            </div>       
         </div>
 
         <!-- View Product Modal -->
-        <div id="viewModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeViewModal()">&times;</span>
-                
-                <div class="form-group">
-                    <label for="viewProductName">Name:</label>
-                    <p id="viewProductName"></p>
-                </div>
+		<div id="viewModal" class="modal">
+		    <div class="modal-content">
+		        <span class="close" onclick="closeViewModal()">&times;</span>
+		        
+		        <div class="form-group">
+		            <label for="viewProductName">Name:</label>
+		            <p id="viewProductName"></p>
+		        </div>
+		
+		        <div class="form-group">
+		            <label for="viewProductDescription">Description:</label>
+		            <p id="viewProductDescription"></p>
+		        </div>
+		
+		        <div class="form-group">
+		            <label for="viewProductPrice">Price:</label>
+		            <p id="viewProductPrice"></p>
+		        </div>
+		
+		        <div class="form-group">
+		            <label for="viewProductColour">Colour:</label>
+		            <p id="viewProductColour"></p>
+		        </div>
+		
+		        <div class="form-group">
+		            <label for="viewProductGender">Gender:</label>
+		            <p id="viewProductGender"></p>
+		        </div>
+		
+		        <div class="form-group">
+		            <label for="viewProductCategory">Category:</label>
+		            <p id="viewProductCategory"></p>
+		        </div>
+		
+		        <div class="form-group">
+		            <label for="viewProductSizeQuantities">Select Size:</label>
+		            <div id="viewProductSizeQuantities" class="size-options"></div>
+		        </div>
+		
+		        <div class="form-group">
+		            <label for="productQuantity">Quantity:</label>
+		            <input type="number" id="productQuantity" min="1" value="1">
+		        </div>
+		
+		        <button id="addToCartButton" onclick="addToCart()">Add to Cart</button>
+		    </div>
+		</div>
 
-                <div class="form-group">
-                    <label for="viewProductDescription">Description:</label>
-                    <p id="viewProductDescription"></p>
-                </div>
-
-                <div class="form-group">
-                    <label for="viewProductPrice">Price:</label>
-                    <p id="viewProductPrice"></p>
-                </div>
-
-                <div class="form-group">
-                    <label for="viewProductColour">Colour:</label>
-                    <p id="viewProductColour"></p>
-                </div>
-
-                <div class="form-group">
-                    <label for="viewProductGender">Gender:</label>
-                    <p id="viewProductGender"></p>
-                </div>
-
-                <div class="form-group">
-                    <label for="viewProductCategory">Category:</label>
-                    <p id="viewProductCategory"></p>
-                </div>
-
-                <!-- Size and Quantity Selection -->
-                <div class="form-group size-options">
-                    <label for="viewProductSizeQuantities">Sizes & Quantities:</label>
-                    <div id="viewProductSizeQuantities"></div>
-                </div>
-
-                <!-- Quantity Input -->
-                <div class="form-group">
-                    <label for="productQuantity">Quantity:</label>
-                    <input type="number" id="productQuantity" value="1" min="1">
-                </div>
-
-                <!-- Add to Cart Button -->
-                <div class="form-group">
-                    <button onclick="addToCart()">Add to Cart</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    
     <script src="/static/js/public.js"></script>
 </body>
 </html>
