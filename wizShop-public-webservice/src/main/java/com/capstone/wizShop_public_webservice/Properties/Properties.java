@@ -8,9 +8,16 @@ public class Properties {
 	 
 	 @Value("${wizshop.common.repo.url}")
 	 private String commonRepoUrl;
-
 	 
+	 @Value("${stripe.secret.key}")
+	 private String stripeSecretKey;
+
 	 public String getCommonRepoUrl() {
 		 return commonRepoUrl;
 	 }
+	 
+	 public String getStripSecretKey() {
+		 return stripeSecretKey;
+	 }
 }
+

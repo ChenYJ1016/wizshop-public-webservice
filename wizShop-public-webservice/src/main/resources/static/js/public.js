@@ -59,29 +59,6 @@ function closeViewModal() {
     document.getElementById('viewModal').style.display = 'none';
 }
 
-function addToCart() {
-    const quantity = document.getElementById('productQuantity').value;
-    const productName = document.getElementById('viewProductName').textContent;
-    const productPrice = parseFloat(document.getElementById('viewProductPrice').textContent.replace('$', ''));
-
-    if (!selectedSize) {
-        alert('Please select a size.');
-        return;
-    }
-
-    const product = {
-        name: productName,
-        size: selectedSize,  
-        quantity: parseInt(quantity),
-        price: productPrice
-    };
-
-    cart.push(product);
-    updateCart();
-    closeViewModal();
-}
-
-
 function updateCart() {
     const cartItems = document.getElementById('cartItems');
     const cartTotal = document.getElementById('cartTotal');
@@ -109,8 +86,116 @@ function updateCart() {
     }
 }
 
-
 function toggleCart() {
     const cartSidebar = document.getElementById('cartSidebar');
     cartSidebar.classList.toggle('show-cart');
+}
+
+// Store cart items in session storage
+function addToCart() {
+    const productId = document.getElementById('viewModal').dataset.productId;
+    const productName = document.getElementById('viewProductName').innerText;
+    const size = document.querySelector('.size-options button.selected').innerText;
+    const quantity = document.getElementById('productQuantity').value;
+
+    const cartItem = {
+        productId,
+        productName,
+        size,
+        quantity
+    };
+
+    let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    cart.push(cartItem);
+    sessionStorage.setItem('cart', JSON.stringify(cart));
+
+    displayCart();
+    closeViewModal();
+}
+
+// Display cart items in the sidebar
+function displayCart() {
+    const cartItems = document.getElementById('cartItems');
+    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    let total = 0;
+
+    cartItems.innerHTML = '';
+    cart.forEach(item => {
+        const itemElement = document.createElement('div');
+        itemElement.innerHTML = `
+            <p>${item.productName} - ${item.size} (x${item.quantity})</p>
+        `;
+        cartItems.appendChild(itemElement);
+        total += parseInt(item.quantity); // Update total
+    });
+
+    document.getElementById('cartTotal').innerText = total;
+}
+
+// Redirect to checkout and store cart data in session storage
+function proceedToCheckout() {
+    window.location.href = '/checkout';
+}
+
+// On checkout page load, display cart summary
+function loadCheckoutSummary() {
+    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    const summaryDiv = document.getElementById('checkoutSummary');
+    summaryDiv.innerHTML = '';
+
+    cart.forEach(item => {
+        const itemElement = document.createElement('div');
+        itemElement.innerHTML = `
+            <p>${item.productName} - ${item.size} (x${item.quantity})</p>
+        `;
+        summaryDiv.appendChild(itemElement);
+    });
+}
+
+// Show payment form
+function showPaymentForm() {
+    document.getElementById('paymentForm').style.display = 'block';
+}
+
+// Send cart details to backend on payment success
+async function processPayment(token) {
+    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    const response = await fetch('/process-payment', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            token: token.id,
+            cart: cart
+        }),
+    });
+
+    const result = await response.json();
+    if (result.success) {
+        alert('Payment successful!');
+        sessionStorage.removeItem('cart'); // Clear cart after successful payment
+        window.location.href = '/shop';
+    } else {
+        alert('Payment failed. Please try again.');
+    }
+}
+
+// Initialize Stripe
+function initStripe() {
+    const stripe = Stripe('your-stripe-public-key'); // Replace with your Stripe public key
+    const elements = stripe.elements();
+    const card = elements.create('card');
+    card.mount('#card-element');
+
+    document.getElementById('payment-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const { token, error } = await stripe.createToken(card);
+        if (error) {
+            console.error(error);
+        } else {
+            processPayment(token);
+        }
+    });
 }

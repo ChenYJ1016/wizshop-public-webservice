@@ -164,7 +164,7 @@
         </div>
         <div class="cart-footer">
             <p>Total: <span id="cartTotal">0</span></p>
-        	<button onclick="window.location.href='/checkout'">Proceed to Checkout</button>
+			<button id="proceedToCheckoutButton" onclick="proceedToCheckout()">Proceed to Checkout</button>
         </div>
     </div>
 
