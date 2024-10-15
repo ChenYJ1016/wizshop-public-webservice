@@ -31,10 +31,13 @@
     </div>
 
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="/static/js/public.js"></script>
+    <script src="/static/js/checkout.js"></script>
     <script>
-        loadCheckoutSummary();
-        initStripe();
-    </script>
+	    window.onload = function () {
+	        loadCheckoutSummary();
+	        initStripe();
+	    };
+	</script>
+
 </body>
 </html>

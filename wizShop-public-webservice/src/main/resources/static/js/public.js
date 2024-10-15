@@ -4,14 +4,17 @@ let selectedSize = null;
 let cart = [];
 let totalAmount = 0;
 
-document.getElementById('filterButton').addEventListener('click', function() {
-    const filterOptions = document.getElementById('filterOptions');
-    if (filterOptions.style.display === 'none' || filterOptions.style.display === '') {
-        filterOptions.style.display = 'block';
-    } else {
-        filterOptions.style.display = 'none';
-    }
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('filterButton').addEventListener('click', function() {
+        const filterOptions = document.getElementById('filterOptions');
+        if (filterOptions.style.display === 'none' || filterOptions.style.display === '') {
+            filterOptions.style.display = 'block';
+        } else {
+            filterOptions.style.display = 'none';
+        }
+    });
 });
+
 
 function openViewModal(productCard) {
     const productName = productCard.getAttribute('data-product-name');
@@ -135,67 +138,4 @@ function displayCart() {
 // Redirect to checkout and store cart data in session storage
 function proceedToCheckout() {
     window.location.href = '/checkout';
-}
-
-// On checkout page load, display cart summary
-function loadCheckoutSummary() {
-    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-    const summaryDiv = document.getElementById('checkoutSummary');
-    summaryDiv.innerHTML = '';
-
-    cart.forEach(item => {
-        const itemElement = document.createElement('div');
-        itemElement.innerHTML = `
-            <p>${item.productName} - ${item.size} (x${item.quantity})</p>
-        `;
-        summaryDiv.appendChild(itemElement);
-    });
-}
-
-// Show payment form
-function showPaymentForm() {
-    document.getElementById('paymentForm').style.display = 'block';
-}
-
-// Send cart details to backend on payment success
-async function processPayment(token) {
-    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-    const response = await fetch('/process-payment', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            token: token.id,
-            cart: cart
-        }),
-    });
-
-    const result = await response.json();
-    if (result.success) {
-        alert('Payment successful!');
-        sessionStorage.removeItem('cart'); // Clear cart after successful payment
-        window.location.href = '/shop';
-    } else {
-        alert('Payment failed. Please try again.');
-    }
-}
-
-// Initialize Stripe
-function initStripe() {
-    const stripe = Stripe('your-stripe-public-key'); // Replace with your Stripe public key
-    const elements = stripe.elements();
-    const card = elements.create('card');
-    card.mount('#card-element');
-
-    document.getElementById('payment-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const { token, error } = await stripe.createToken(card);
-        if (error) {
-            console.error(error);
-        } else {
-            processPayment(token);
-        }
-    });
 }
