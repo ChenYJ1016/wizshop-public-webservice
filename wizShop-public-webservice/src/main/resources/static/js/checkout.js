@@ -37,10 +37,11 @@ async function processPayment(token) {
     const result = await response.json();
     if (result.success) {
         alert('Payment successful!');
-        sessionStorage.removeItem('cart'); // Clear cart after successful payment
+        sessionStorage.removeItem('cart'); 
         window.location.href = '/shop';
     } else {
         alert('Payment failed. Please try again.');
+        console.log(result)
     }
 }
 

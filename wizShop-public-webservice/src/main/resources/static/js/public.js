@@ -13,8 +13,37 @@ document.addEventListener('DOMContentLoaded', function() {
             filterOptions.style.display = 'none';
         }
     });
+    
+    loadCart();
 });
 
+// Load cart items from session storage and display them
+function loadCart() {
+    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    let total = 0;
+
+    const cartItems = document.getElementById('cartItems');
+    cartItems.innerHTML = ''; // Clear the cart items container
+
+    cart.forEach(item => {
+        const itemElement = document.createElement('div');
+        itemElement.innerHTML = `
+            <p>${item.productName} - ${item.size} (x${item.quantity})</p>
+        `;
+        cartItems.appendChild(itemElement);
+        total += parseInt(item.quantity); // Update total
+    });
+
+    document.getElementById('cartTotal').innerText = total;
+
+    // Show the cart sidebar if there are items in the cart
+    const cartSidebar = document.getElementById('cartSidebar');
+    if (cart.length > 0) {
+        cartSidebar.classList.add('show-cart');
+    } else {
+        cartSidebar.classList.remove('show-cart');
+    }
+}
 
 function openViewModal(productCard) {
     const productName = productCard.getAttribute('data-product-name');
@@ -98,8 +127,13 @@ function toggleCart() {
 function addToCart() {
     const productId = document.getElementById('viewModal').dataset.productId;
     const productName = document.getElementById('viewProductName').innerText;
-    const size = document.querySelector('.size-options button.selected').innerText;
-    const quantity = document.getElementById('productQuantity').value;
+    const size = document.querySelector('.size-options button.selected')?.innerText; // Use optional chaining
+    const quantity = parseInt(document.getElementById('productQuantity').value, 10) || 1; // Default to 1 if no value
+
+    if (!size) {
+        alert("Please select a size!");
+        return; // Don't add to cart if size is not selected
+    }
 
     const cartItem = {
         productId,
@@ -112,9 +146,10 @@ function addToCart() {
     cart.push(cartItem);
     sessionStorage.setItem('cart', JSON.stringify(cart));
 
-    displayCart();
+    loadCart();
     closeViewModal();
 }
+
 
 // Display cart items in the sidebar
 function displayCart() {
