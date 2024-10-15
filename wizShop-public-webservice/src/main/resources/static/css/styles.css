@@ -319,15 +319,3 @@ body {
     justify-content: center; 
 }
 
-/* Ensure that button is not hidden */
-button#checkoutButton {
-    display: block;  /* Ensure it's displayed */
-    visibility: visible;  /* Ensure it's visible */
-    background-color: #007bff;  /* Style the button */
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    text-align: center;
-    width: 100%;
-}
