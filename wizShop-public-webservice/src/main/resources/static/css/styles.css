@@ -246,6 +246,9 @@ body {
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
     padding: 20px;
     transition: right 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .cart-header {
@@ -255,8 +258,8 @@ body {
 }
 
 .cart-items {
-    max-height: 400px;
-    overflow-y: auto;
+    flex-grow: 1; /* Allows it to expand as needed */
+    overflow-y: auto; /* Allows scrolling if cart items exceed available space */
 }
 
 .cart-item {
@@ -264,10 +267,30 @@ body {
 }
 
 .cart-footer {
-    position: absolute;
-    bottom: 20px;
-    width: 100%;
+    position: sticky; /* Keeps it at the bottom but moves up if needed */
+    bottom: 0;
+    background-color: white;
+    padding: 20px;
+    border-top: 1px solid #ddd;
     text-align: center;
+}
+
+.cart-footer p {
+    margin-bottom: 10px; /* Adds some space between total and button */
+}
+
+.cart-footer button {
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.cart-footer button:hover {
+    background-color: #555;
 }
 
 .show-cart {
@@ -294,4 +317,17 @@ body {
     display: flex; 
     align-items: center; 
     justify-content: center; 
+}
+
+/* Ensure that button is not hidden */
+button#checkoutButton {
+    display: block;  /* Ensure it's displayed */
+    visibility: visible;  /* Ensure it's visible */
+    background-color: #007bff;  /* Style the button */
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
 }
