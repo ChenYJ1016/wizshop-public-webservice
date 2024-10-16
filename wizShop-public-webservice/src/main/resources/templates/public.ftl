@@ -146,9 +146,10 @@
                 </div>
 
                 <!-- Add to Cart Button -->
-                <div class="form-group">
-                    <button onclick="addToCart()">Add to Cart</button>
-                </div>
+				<div class="form-group">
+				    <button class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
+				</div>
+
             </div>
         </div>
     </div>

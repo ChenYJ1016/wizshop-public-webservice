@@ -19,39 +19,49 @@
             <!-- Cart items will be displayed here -->
         </div>
 
-        <button id="nextButton" onclick="showAddressForm()">Next</button>
+		<button id="nextButton" onclick="showAddressForm()">Next</button>
 
         <!-- Delivery Address Form -->
         <div id="addressForm" style="display: none;">
             <h2>Delivery Address</h2>
-            <form id="deliveryForm">
-                <label for="name">Name:</label>
-                <input type="text" id="name" required>
+            <form id="deliveryForm" class="form">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" required>
+                </div>
                 
-                <label for="address">Address:</label>
-                <input type="text" id="address" required>
+                <div class="form-group">
+                    <label for="address">Address:</label>
+                    <input type="text" id="address" required>
+                </div>
                 
-                <label for="city">City:</label>
-                <input type="text" id="city" required>
+                <div class="form-group">
+                    <label for="city">City:</label>
+                    <input type="text" id="city" required>
+                </div>
                 
-                <label for="zip">Zip Code:</label>
-                <input type="text" id="zip" required>
+                <div class="form-group">
+                    <label for="zip">Zip Code:</label>
+                    <input type="text" id="zip" required>
+                </div>
                 
-                <label for="phone">Contact Number:</label>
-                <input type="text" id="phone" required>
+                <div class="form-group">
+                    <label for="phone">Contact Number:</label>
+                    <input type="text" id="phone" required>
+                </div>
                 
-                <button type="button" onclick="showPaymentForm()">Continue to Payment</button>
+                <button type="button" class="btn" onclick="showPaymentForm()">Continue to Payment</button>
             </form>
         </div>
 
         <!-- Payment Form -->
         <div id="paymentForm" style="display: none;">
             <h2>Enter Payment Details</h2>
-            <form id="payment-form">
+            <form id="payment-form" class="form">
                 <div id="card-element">
                     <!-- Stripe Elements will be inserted here -->
                 </div>
-                <button type="submit">Pay Now</button>
+                <button type="submit" class="btn">Pay Now</button>
             </form>
         </div>
     </div>
