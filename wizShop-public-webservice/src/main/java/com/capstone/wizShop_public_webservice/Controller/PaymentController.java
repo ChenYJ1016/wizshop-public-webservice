@@ -22,17 +22,16 @@ import java.util.Map;
 
 @Controller
 public class PaymentController {
-	
-	@Autowired 
-    private Properties properties;
-	
-    private static final Logger logger = LoggerFactory.getLogger(PublicController.class);
 
+    @Autowired
+    private Properties properties;
+
+    private static final Logger logger = LoggerFactory.getLogger(PaymentController.class);
 
     @PostMapping("/process-payment")
     public ResponseEntity<?> processPayment(@RequestBody PaymentRequest paymentRequest) {
-    	
-        Stripe.apiKey = properties.getStripSecretKey(); 
+        logger.info("test");
+        Stripe.apiKey = properties.getStripeSecretKey(); 
 
         List<CartItem> cart = paymentRequest.getCart();
         String token = paymentRequest.getToken();
@@ -41,7 +40,7 @@ public class PaymentController {
             // Create a charge with Stripe
             Map<String, Object> chargeParams = new HashMap<>();
             chargeParams.put("amount", calculateTotalAmount(cart)); // amount in cents
-            chargeParams.put("currency", "usd");
+            chargeParams.put("currency", "sgd");
             chargeParams.put("description", "Purchase from wizShop");
             chargeParams.put("source", token);
 
@@ -51,11 +50,17 @@ public class PaymentController {
             return ResponseEntity.ok(Collections.singletonMap("success", true));
 
         } catch (StripeException e) {
-        	logger.error(e.getMessage());
-            // Payment failed
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(Collections.singletonMap("success", false));
-           
+            logger.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Collections.singletonMap("message", e.getMessage()));
+
+        } catch (Exception ex) {
+            // Log any other exception that may occur
+            logger.error("General error: " + ex.getMessage(), ex);
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Collections.singletonMap("message", ex.getMessage()));
+
         }
     }
 
@@ -67,6 +72,4 @@ public class PaymentController {
         }
         return total;
     }
-
-
 }

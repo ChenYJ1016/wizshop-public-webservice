@@ -1,5 +1,3 @@
-//checkout.js
-
 // On checkout page load, display cart summary
 function loadCheckoutSummary() {
     const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
@@ -15,33 +13,53 @@ function loadCheckoutSummary() {
     });
 }
 
+// Show the delivery address form
+function showAddressForm() {
+    document.getElementById('addressForm').style.display = 'block';
+}
+
 // Show payment form
 function showPaymentForm() {
+    document.getElementById('addressForm').style.display = 'none';
     document.getElementById('paymentForm').style.display = 'block';
 }
 
 // Send cart details to backend on payment success
 async function processPayment(token) {
     const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    const deliveryInfo = {
+        name: document.getElementById('name').value,
+        address: document.getElementById('address').value,
+        city: document.getElementById('city').value,
+        zip: document.getElementById('zip').value,
+        phone: document.getElementById('phone').value,
+    };
+
+    // Get CSRF token from the meta tag
+    const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+
     const response = await fetch('/process-payment', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            [csrfHeader]: csrfToken,  // Include the CSRF token in the headers
         },
         body: JSON.stringify({
             token: token.id,
-            cart: cart
+            cart: cart,
+            deliveryInfo: deliveryInfo
         }),
     });
 
     const result = await response.json();
     if (result.success) {
         alert('Payment successful!');
-        sessionStorage.removeItem('cart'); 
+        sessionStorage.removeItem('cart');
         window.location.href = '/shop';
     } else {
         alert('Payment failed. Please try again.');
-        console.log(result)
+        console.log(result);
     }
 }
 

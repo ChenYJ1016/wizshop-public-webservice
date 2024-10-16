@@ -16,7 +16,7 @@ public class Properties {
 		 return commonRepoUrl;
 	 }
 	 
-	 public String getStripSecretKey() {
+	 public String getStripeSecretKey() {
 		 return stripeSecretKey;
 	 }
 }
