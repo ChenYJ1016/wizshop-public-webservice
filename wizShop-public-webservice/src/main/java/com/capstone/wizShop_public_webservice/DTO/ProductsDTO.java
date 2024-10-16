@@ -1,18 +1,10 @@
 package com.capstone.wizShop_public_webservice.DTO;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+public class ProductsDTO {
 
-@Entity
-@EntityListeners(AuditingEntityListener.class)
-public class Products {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
 
     private String productName;
@@ -26,18 +18,14 @@ public class Products {
     private String productColour;
     
     private String productGender;
-    
-    private String productSize;
-    
+        
     private String productCategory;
 
-    @CreatedDate
     private LocalDateTime createdAt;
     
-    @LastModifiedDate
     private LocalDateTime updatedAt;
-
-    private int productQuantity;
+    
+    private List<SizeQuantities> sizeQuantities;
 
     // Getters and Setters
     public Long getProductId() {
@@ -88,14 +76,6 @@ public class Products {
         this.updatedAt = updatedAt;
     }
 
-    public int getProductQuantity() {
-        return productQuantity;
-    }
-
-    public void setProductQuantity(int productQuantity) {
-        this.productQuantity = productQuantity;
-    }
-
 	public String getProductImageUrl() {
 		return productImageUrl;
 	}
@@ -120,14 +100,6 @@ public class Products {
 		this.productGender = productGender;
 	}
 
-	public String getProductSize() {
-		return productSize;
-	}
-
-	public void setProductSize(String productSize) {
-		this.productSize = productSize;
-	}
-
 	public String getProductCategory() {
 		return productCategory;
 	}
@@ -136,8 +108,12 @@ public class Products {
 		this.productCategory = productCategory;
 	}
 
-	
+	public List<SizeQuantities> getSizeQuantities() {
+		return sizeQuantities;
+	}
 
-
+	public void setSizeQuantities(List<SizeQuantities> sizeQuantities) {
+		this.sizeQuantities = sizeQuantities;
+	}
 
 }
