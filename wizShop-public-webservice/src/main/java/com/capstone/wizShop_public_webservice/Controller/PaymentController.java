@@ -1,6 +1,7 @@
 package com.capstone.wizShop_public_webservice.Controller;
 
 import com.capstone.wizShop_public_webservice.DTO.CartItem;
+import com.capstone.wizShop_public_webservice.DTO.DeliveryInfo;
 import com.capstone.wizShop_public_webservice.DTO.PaymentRequest;
 import com.capstone.wizShop_public_webservice.Properties.Properties;
 import com.stripe.Stripe;
@@ -30,7 +31,13 @@ public class PaymentController {
 
     @PostMapping("/process-payment")
     public ResponseEntity<?> processPayment(@RequestBody PaymentRequest paymentRequest) {
-        logger.info("test");
+        
+        List<CartItem> cartItems = paymentRequest.getCart();
+        DeliveryInfo delInfo = paymentRequest.getDeliveryInfo();
+        logger.info("processPayment(): delivery - {} {} {} {} {} {} ", delInfo.getAddress(), delInfo.getCity(), delInfo.getName(), delInfo.getName(), delInfo.getPhone(), delInfo.getZip());
+        for (CartItem item : cartItems) {
+        	logger.info("processPayment(): {} {}", item.getProductId(), item.getProductName());
+        }
         Stripe.apiKey = properties.getStripeSecretKey(); 
 
         List<CartItem> cart = paymentRequest.getCart();

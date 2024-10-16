@@ -46,6 +46,9 @@ function loadCart() {
 }
 
 function openViewModal(productCard) {
+	const productId = productCard.getAttribute('data-product-id'); 
+    document.getElementById('viewModal').dataset.productId = productId;
+    
     const productName = productCard.getAttribute('data-product-name');
     const productDescription = productCard.getAttribute('data-product-description');
     const productPrice = productCard.getAttribute('data-product-price');
