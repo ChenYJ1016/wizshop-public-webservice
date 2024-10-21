@@ -27,14 +27,28 @@ function loadCart() {
 
     cart.forEach(item => {
         const itemElement = document.createElement('div');
+        itemElement.classList.add('cart-item');
+        const subPrice = item.quantity * item.productPrice; // Calculate sub price
+        console.log(item.productPrice + " " + item.quantity);
+        
+
         itemElement.innerHTML = `
-            <p>${item.productName} - ${item.size} (x${item.quantity})</p>
+            <div class="cart-item-details">
+                <img src="${item.productImageUrl}" alt="${item.productName}" class="cart-item-image">
+                <div>
+                    <p>${item.productName}</p>
+                    <p>${item.size} x ${item.quantity}</p>
+                    <p>Price: $${parseFloat(item.productPrice).toFixed(2)}</p>
+                    <p>Sub-price: $${subPrice.toFixed(2)}</p>
+                </div>
+            </div>
         `;
         cartItems.appendChild(itemElement);
-        total += parseInt(item.quantity); // Update total
+
+        total += subPrice; // Update total with sub-price of each item
     });
 
-    document.getElementById('cartTotal').innerText = total;
+    document.getElementById('cartTotal').innerText = `Total: $${total.toFixed(2)}`;
 
     // Show the cart sidebar if there are items in the cart
     const cartSidebar = document.getElementById('cartSidebar');
@@ -45,24 +59,26 @@ function loadCart() {
     }
 }
 
-function openViewModal(productCard) {
-	const productId = productCard.getAttribute('data-product-id'); 
-    document.getElementById('viewModal').dataset.productId = productId;
-    
-    const productName = productCard.getAttribute('data-product-name');
-    const productDescription = productCard.getAttribute('data-product-description');
-    const productPrice = productCard.getAttribute('data-product-price');
-    const productColour = productCard.getAttribute('data-product-colour');
-    const productGender = productCard.getAttribute('data-product-gender');
-    const productCategory = productCard.getAttribute('data-product-category');
-	const sizeQuantities = productCard.getAttribute('data-product-size-quantities').split(';').map(sq => sq.trim());
 
-    document.getElementById('viewProductName').textContent = productName;
-    document.getElementById('viewProductDescription').textContent = productDescription;
-    document.getElementById('viewProductPrice').textContent = productPrice;
-    document.getElementById('viewProductColour').textContent = productColour;
-    document.getElementById('viewProductGender').textContent = productGender;
-    document.getElementById('viewProductCategory').textContent = productCategory;
+function openViewModal(productCard) {
+    
+    const productId = productCard.dataset.productId;
+    const productName = productCard.dataset.productName;
+    const productDescription = productCard.dataset.productDescription;
+    const productPrice = productCard.dataset.productPrice;
+    const productImageUrl = productCard.dataset.productImageUrl;
+    const productColour = productCard.dataset.productColour;
+    const productGender = productCard.dataset.productGender;
+    const productCategory = productCard.dataset.productCategory;
+    const sizeQuantities = productCard.dataset.productSizeQuantities.split(';');
+
+     document.getElementById('viewProductName').innerText = productName;
+    document.getElementById('viewProductDescription').innerText = productDescription;
+    document.getElementById('viewProductPrice').innerText = `$${parseFloat(productPrice).toFixed(2)}`;
+    document.getElementById('viewProductColour').innerText = productColour;
+    document.getElementById('viewProductGender').innerText = productGender;
+    document.getElementById('viewProductCategory').innerText = productCategory;
+    document.getElementById('viewProductImage').src = productImageUrl;
 
     const sizeQuantitiesContainer = document.getElementById('viewProductSizeQuantities');
     sizeQuantitiesContainer.innerHTML = ''; 
@@ -82,6 +98,7 @@ function openViewModal(productCard) {
 
     document.getElementById('viewModal').style.display = 'block';
 }
+
 
 function selectSize(button, size) {
     const allButtons = document.querySelectorAll('.size-options button');
@@ -127,22 +144,28 @@ function toggleCart() {
 }
 
 // Store cart items in session storage
+// Store cart items in session storage
 function addToCart() {
     const productId = document.getElementById('viewModal').dataset.productId;
     const productName = document.getElementById('viewProductName').innerText;
-    const size = document.querySelector('.size-options button.selected')?.innerText; // Use optional chaining
-    const quantity = parseInt(document.getElementById('productQuantity').value, 10) || 1; // Default to 1 if no value
+    const productImageUrl = document.querySelector('.modal-content img').src; // Assuming the product image is displayed in the modal
+    const productPrice = parseFloat(document.getElementById('viewProductPrice').innerText.replace('$', '')); // Convert price to float
+    const size = document.querySelector('.size-options button.selected')?.innerText; // Get selected size
+    const quantity = parseInt(document.getElementById('productQuantity').value, 10) || 1; // Get quantity or default to 1
 
     if (!size) {
         alert("Please select a size!");
-        return; // Don't add to cart if size is not selected
+        return; 
     }
-
+	console.log("addtocart " + productPrice);
     const cartItem = {
         productId,
         productName,
+        productImageUrl,
         size,
-        quantity
+        quantity,
+        productPrice,
+        subTotal: productPrice * quantity // Calculate the subtotal
     };
 
     let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
@@ -152,7 +175,6 @@ function addToCart() {
     loadCart();
     closeViewModal();
 }
-
 
 // Display cart items in the sidebar
 function displayCart() {
@@ -173,7 +195,6 @@ function displayCart() {
     document.getElementById('cartTotal').innerText = total;
 }
 
-// Redirect to checkout and store cart data in session storage
 function proceedToCheckout() {
     window.location.href = '/checkout';
 }

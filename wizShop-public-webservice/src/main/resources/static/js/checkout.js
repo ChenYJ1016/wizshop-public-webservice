@@ -43,7 +43,7 @@ async function processPayment(token) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            [csrfHeader]: csrfToken,  // Include the CSRF token in the headers
+            [csrfHeader]: csrfToken,  
         },
         body: JSON.stringify({
             token: token.id,

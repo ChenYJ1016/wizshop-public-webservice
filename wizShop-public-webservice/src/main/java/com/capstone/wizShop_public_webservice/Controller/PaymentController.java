@@ -11,10 +11,14 @@ import com.stripe.model.Charge;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,6 +30,9 @@ public class PaymentController {
 
     @Autowired
     private Properties properties;
+    
+    @Autowired
+    private RestTemplate restTemplate;
 
     private static final Logger logger = LoggerFactory.getLogger(PaymentController.class);
 
@@ -46,14 +53,17 @@ public class PaymentController {
         try {
             // Create a charge with Stripe
             Map<String, Object> chargeParams = new HashMap<>();
-            chargeParams.put("amount", calculateTotalAmount(cart)); // amount in cents
+            chargeParams.put("amount", calculateTotalAmount(cart)); 
             chargeParams.put("currency", "sgd");
-            chargeParams.put("description", "Purchase from wizShop");
+            chargeParams.put("description", "Purchase from wizShop (Test)");
             chargeParams.put("source", token);
 
             Charge charge = Charge.create(chargeParams);
-
-            // Payment succeeded
+            
+            HttpEntity<PaymentRequest> request = new HttpEntity<>(paymentRequest);
+            String url = UriComponentsBuilder.fromHttpUrl(properties.getCommonRepoUrl() + "/api/orders/create").toUriString();
+            restTemplate.exchange(url, HttpMethod.POST, request, Void.class);
+           
             return ResponseEntity.ok(Collections.singletonMap("success", true));
 
         } catch (StripeException e) {
