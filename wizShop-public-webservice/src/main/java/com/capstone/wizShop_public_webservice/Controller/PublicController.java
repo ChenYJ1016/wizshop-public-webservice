@@ -1,7 +1,5 @@
 package com.capstone.wizShop_public_webservice.Controller;
 
-import java.security.SecureRandom;
-import java.util.Base64;
 import java.util.List;
 
 import org.slf4j.Logger;

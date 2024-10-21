@@ -130,7 +130,7 @@ body {
 .modal-body {
     display: flex;
     flex-direction: row;
-    gap: 20px; /* Spacing between image and details */
+    gap: 20px; 
 }
 
 .product-image-container {
@@ -142,7 +142,7 @@ body {
 }
 
 .modal-product-image {
-    max-width: 100%; /* Make sure the image doesn't overflow */
+    max-width: 100%; 
     height: auto;
     border-radius: 5px;
 }
@@ -153,7 +153,7 @@ body {
 
 /* Modal general styling */
 .modal {
-    display: none; /* Hidden by default */
+    display: none; 
     position: fixed;
     z-index: 1;
     left: 0;
@@ -161,7 +161,7 @@ body {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    background-color: rgba(0,0,0,0.5); 
 }
 
 .modal-content {
@@ -170,7 +170,7 @@ body {
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-    max-width: 800px; /* Adjust width for larger modals */
+    max-width: 800px; 
 }
 
 .close {
@@ -432,14 +432,12 @@ body {
     transition: background-color 0.3s, transform 0.2s; 
 }
 
-/* Hover effect for the Next button */
 #nextButton:hover {
     background-color: #0056b3; 
     transform: scale(1.05); 
 }
 
 
-/* Responsive design */
 @media (max-width: 600px) {
     .container {
         padding: 10px; 

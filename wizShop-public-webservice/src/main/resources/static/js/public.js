@@ -62,8 +62,7 @@ function loadCart() {
 
 function openViewModal(productCard) {
     
-    const productId = productCard.dataset.productId;
-    const productName = productCard.dataset.productName;
+	const productId = productCard.getAttribute('data-product-id'); 
     const productDescription = productCard.dataset.productDescription;
     const productPrice = productCard.dataset.productPrice;
     const productImageUrl = productCard.dataset.productImageUrl;
@@ -72,7 +71,8 @@ function openViewModal(productCard) {
     const productCategory = productCard.dataset.productCategory;
     const sizeQuantities = productCard.dataset.productSizeQuantities.split(';');
 
-     document.getElementById('viewProductName').innerText = productName;
+    document.getElementById('viewModal').dataset.productId = productId;    const productName = productCard.dataset.productName;
+    document.getElementById('viewProductName').innerText = productName;
     document.getElementById('viewProductDescription').innerText = productDescription;
     document.getElementById('viewProductPrice').innerText = `$${parseFloat(productPrice).toFixed(2)}`;
     document.getElementById('viewProductColour').innerText = productColour;
@@ -83,7 +83,7 @@ function openViewModal(productCard) {
     const sizeQuantitiesContainer = document.getElementById('viewProductSizeQuantities');
     sizeQuantitiesContainer.innerHTML = ''; 
     selectedSize = null; 
-
+	
     sizeQuantities.forEach(sizeQuantity => {
         const [size, quantity] = sizeQuantity.split(':');
         if (size && quantity) {
@@ -157,7 +157,7 @@ function addToCart() {
         alert("Please select a size!");
         return; 
     }
-	console.log("addtocart " + productPrice);
+	console.log("addtocart " + productId);
     const cartItem = {
         productId,
         productName,
@@ -165,7 +165,7 @@ function addToCart() {
         size,
         quantity,
         productPrice,
-        subTotal: productPrice * quantity // Calculate the subtotal
+        subTotal: productPrice * quantity 
     };
 
     let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
@@ -189,7 +189,7 @@ function displayCart() {
             <p>${item.productName} - ${item.size} (x${item.quantity})</p>
         `;
         cartItems.appendChild(itemElement);
-        total += parseInt(item.quantity); // Update total
+        total += parseInt(item.quantity); 
     });
 
     document.getElementById('cartTotal').innerText = total;
