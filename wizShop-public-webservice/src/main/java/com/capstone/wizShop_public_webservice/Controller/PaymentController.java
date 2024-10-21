@@ -79,7 +79,7 @@ public class PaymentController {
                        
             HttpEntity<PaymentRequest> request = new HttpEntity<>(paymentRequest, headers);
             String url = UriComponentsBuilder.fromHttpUrl(properties.getCommonRepoUrl() + "/api/orders/create").toUriString();
-            ResponseEntity<Void> response = restTemplate.exchange(url, HttpMethod.POST, request, Void.class);
+            restTemplate.exchange(url, HttpMethod.POST, request, Void.class);
             return ResponseEntity.ok(Collections.singletonMap("success", true));
 
         } catch (StripeException e) {
