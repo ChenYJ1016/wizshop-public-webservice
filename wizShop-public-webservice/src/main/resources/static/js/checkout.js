@@ -38,7 +38,7 @@ async function processPayment(token) {
     // Get CSRF token from the meta tag
     const csrfToken = document.querySelector('meta[name="_csrf"]').content;
     const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
-
+    
     const response = await fetch('/process-payment', {
         method: 'POST',
         headers: {

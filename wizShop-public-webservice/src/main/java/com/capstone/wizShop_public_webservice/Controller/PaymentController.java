@@ -8,13 +8,17 @@ import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -34,11 +38,20 @@ public class PaymentController {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private HttpServletRequest request;
+    
     private static final Logger logger = LoggerFactory.getLogger(PaymentController.class);
+    
+    private String getCsrfToken() {
+        CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+        return csrfToken != null ? csrfToken.getToken() : null;
+    }
 
     @PostMapping("/process-payment")
     public ResponseEntity<?> processPayment(@RequestBody PaymentRequest paymentRequest) {
-        
+        String csrfToken = getCsrfToken(); 
+
         List<CartItem> cartItems = paymentRequest.getCart();
         DeliveryInfo delInfo = paymentRequest.getDeliveryInfo();
         logger.info("processPayment(): delivery - {} {} {} {} {} {} ", delInfo.getAddress(), delInfo.getCity(), delInfo.getName(), delInfo.getName(), delInfo.getPhone(), delInfo.getZip());
@@ -60,10 +73,13 @@ public class PaymentController {
 
             Charge charge = Charge.create(chargeParams);
             
-            HttpEntity<PaymentRequest> request = new HttpEntity<>(paymentRequest);
+            HttpHeaders headers = new HttpHeaders();
+
+            headers.set("X-XSRF-TOKEN", csrfToken);
+                       
+            HttpEntity<PaymentRequest> request = new HttpEntity<>(paymentRequest, headers);
             String url = UriComponentsBuilder.fromHttpUrl(properties.getCommonRepoUrl() + "/api/orders/create").toUriString();
-            restTemplate.exchange(url, HttpMethod.POST, request, Void.class);
-           
+            ResponseEntity<Void> response = restTemplate.exchange(url, HttpMethod.POST, request, Void.class);
             return ResponseEntity.ok(Collections.singletonMap("success", true));
 
         } catch (StripeException e) {
