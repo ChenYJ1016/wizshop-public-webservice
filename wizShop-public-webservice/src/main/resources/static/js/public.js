@@ -29,15 +29,13 @@ function loadCart() {
         const itemElement = document.createElement('div');
         itemElement.classList.add('cart-item');
         const subPrice = item.quantity * item.productPrice; // Calculate sub price
-        console.log(item.productPrice + " " + item.quantity);
-        
 
         itemElement.innerHTML = `
             <div class="cart-item-details">
                 <img src="${item.productImageUrl}" alt="${item.productName}" class="cart-item-image">
                 <div>
                     <p>${item.productName}</p>
-                    <p>${item.size} x ${item.quantity}</p>
+                    <p>Size: ${item.size} x ${item.quantity}</p> <!-- This now shows just the size -->
                     <p>Price: $${parseFloat(item.productPrice).toFixed(2)}</p>
                     <p>Sub-price: $${subPrice.toFixed(2)}</p>
                 </div>
@@ -58,6 +56,7 @@ function loadCart() {
         cartSidebar.classList.remove('show-cart');
     }
 }
+
 
 
 function openViewModal(productCard) {
@@ -104,8 +103,9 @@ function selectSize(button, size) {
     const allButtons = document.querySelectorAll('.size-options button');
     allButtons.forEach(btn => btn.classList.remove('selected'));
     button.classList.add('selected'); 
-    selectedSize = size; 
+    selectedSize = size; // Store only the size (e.g., "S")
 }
+
 
 function closeViewModal() {
     document.getElementById('viewModal').style.display = 'none';
@@ -143,31 +143,28 @@ function toggleCart() {
     cartSidebar.classList.toggle('show-cart');
 }
 
-// Store cart items in session storage
-// Store cart items in session storage
 function addToCart() {
     const productId = document.getElementById('viewModal').dataset.productId;
     const productName = document.getElementById('viewProductName').innerText;
     const productImageUrl = document.querySelector('.modal-content img').src; // Assuming the product image is displayed in the modal
     const productPrice = parseFloat(document.getElementById('viewProductPrice').innerText.replace('$', '')); // Convert price to float
-    const size = document.querySelector('.size-options button.selected')?.innerText; // Get selected size
     const quantity = parseInt(document.getElementById('productQuantity').value, 10) || 1; // Get quantity or default to 1
 
-    if (!size) {
+    if (!selectedSize) {
         alert("Please select a size!");
         return; 
     }
-	console.log("addtocart " + productId);
+
     const cartItem = {
         productId,
         productName,
         productImageUrl,
-        size,
+        size: selectedSize.trim(), // This should already hold just the size (e.g., "S")
         quantity,
         productPrice,
         subTotal: productPrice * quantity 
     };
-
+	console.log(cartItem);
     let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
     cart.push(cartItem);
     sessionStorage.setItem('cart', JSON.stringify(cart));
@@ -175,6 +172,8 @@ function addToCart() {
     loadCart();
     closeViewModal();
 }
+
+
 
 // Display cart items in the sidebar
 function displayCart() {
