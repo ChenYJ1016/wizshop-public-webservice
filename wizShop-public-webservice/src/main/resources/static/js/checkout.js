@@ -3,17 +3,63 @@
 function loadCheckoutSummary() {
     const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
     const summaryDiv = document.getElementById('checkoutSummary');
-    summaryDiv.innerHTML = '';
+    summaryDiv.innerHTML = ''; 
+    let totalPrice = 0; 
 
-    cart.forEach(item => {
+    cart.forEach((item, index) => {
+        const subtotal = item.productPrice * item.quantity; 
+        totalPrice += subtotal; 
+
         const itemElement = document.createElement('div');
+        itemElement.classList.add('cart-item-summary'); 
         itemElement.innerHTML = `
-            <p>${item.productName} - ${item.size} (x${item.quantity})</p>
+            <div class="checkout-item">
+                <img src="${item.productImageUrl}" alt="${item.productName}" class="checkout-item-image" />
+                <div class="checkout-item-details">
+                    <p>${item.productName}</p>
+                    <p>Size: ${item.size}</p>
+                    <p>
+                        Quantity: 
+                        <input type="number" value="${item.quantity}" min="1" max="${item.availableQuantity}" onchange="updateQuantity(${index}, this.value)" id="quantity-${index}" />
+                    </p>
+                    <p>Subtotal: $${subtotal.toFixed(2)}</p>
+                    <button onclick="removeItem(${index})">Remove</button>
+                </div>
+            </div>
         `;
         summaryDiv.appendChild(itemElement);
     });
+
+    const totalPriceElement = document.getElementById('totalPrice');
+    totalPriceElement.innerHTML = `<h3>Total Price: $${totalPrice.toFixed(2)}</h3>`;
 }
 
+function updateQuantity(index, newQuantity) {
+    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+
+    if (newQuantity <= 0) {
+        alert("Quantity must be at least 1.");
+        return;
+    }
+
+    // Check if newQuantity exceeds available quantity
+    if (newQuantity > cart[index].availableQuantity) {
+        alert(`Cannot set quantity to more than ${cart[index].availableQuantity}.`);
+        return;
+    }
+
+    cart[index].quantity = parseInt(newQuantity); // Update quantity in cart
+    sessionStorage.setItem('cart', JSON.stringify(cart)); // Update session storage
+    loadCheckoutSummary(); // Refresh the summary
+}
+
+
+function removeItem(index) {
+    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    cart.splice(index, 1); // Remove the item from the cart
+    sessionStorage.setItem('cart', JSON.stringify(cart)); // Update session storage
+    loadCheckoutSummary(); // Refresh the summary
+}
 function showAddressForm() {
     document.getElementById('addressForm').style.display = 'block';
 }

@@ -54,7 +54,6 @@ function loadCart() {
     cartSidebar.classList.toggle('show-cart', cart.length > 0);
 }
 
-
 function openViewModal(productCard) {
     const productId = productCard.getAttribute('data-product-id'); 
     const productDescription = productCard.dataset.productDescription;
@@ -88,6 +87,7 @@ function openViewModal(productCard) {
             if (qty > 0) {
                 sizeButton.textContent = `${size} (Available: ${qty})`;
                 sizeButton.disabled = false; 
+                sizeButton.dataset.availableQuantity = qty;
             } else {
                 sizeButton.textContent = `${size} (Unavailable)`;
                 sizeButton.disabled = true;
@@ -162,6 +162,16 @@ function addToCart() {
         alert('Please select a size.');
         return;
     }
+    
+     // Get the available quantity from the selected size button
+    const selectedSizeButton = [...document.querySelectorAll('#viewProductSizeQuantities button')]
+        .find(btn => btn.classList.contains('selected'));
+    const availableQuantity = selectedSizeButton ? parseInt(selectedSizeButton.dataset.availableQuantity, 10) : 0;
+
+    if (quantity > availableQuantity) {
+        alert(`Cannot add more than available quantity (${availableQuantity}).`);
+        return;
+    }
 
     const existingItemIndex = cart.findIndex(item => item.productId === productId && item.size === selectedSize);
 
@@ -177,7 +187,8 @@ function addToCart() {
             productGender: productGender,
             productCategory: productCategory,
             size: selectedSize,
-            quantity: quantity
+            quantity: quantity,
+            availableQuantity: availableQuantity
         });
     }
 
