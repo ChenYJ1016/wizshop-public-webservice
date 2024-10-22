@@ -1,7 +1,5 @@
 package com.capstone.wizShop_public_webservice.Controller;
 
-import java.security.SecureRandom;
-import java.util.Base64;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -27,8 +25,6 @@ import com.capstone.wizShop_public_webservice.Properties.Properties;
 @RequestMapping("/shop")
 public class PublicController {
 	
-	private static final SecureRandom secureRandom = new SecureRandom();
-    private static final Base64.Encoder base64Encoder = Base64.getUrlEncoder();
     private static final Logger logger = LoggerFactory.getLogger(PublicController.class);
     
     @Autowired

@@ -127,8 +127,33 @@ body {
 
 
 /* Modal styles */
+.modal-body {
+    display: flex;
+    flex-direction: row;
+    gap: 20px; 
+}
+
+.product-image-container {
+    flex: 1;
+}
+
+.product-details-container {
+    flex: 2;
+}
+
+.modal-product-image {
+    max-width: 100%; 
+    height: auto;
+    border-radius: 5px;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+/* Modal general styling */
 .modal {
-    display: none;
+    display: none; 
     position: fixed;
     z-index: 1;
     left: 0;
@@ -136,17 +161,16 @@ body {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0,0,0,0.5); 
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: #fff;
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 50%;
-    border-radius: 8px;
+    width: 80%;
+    max-width: 800px; 
 }
 
 .close {
@@ -217,20 +241,20 @@ body {
 
 /* Add to Cart Button */
 .add-to-cart-btn {
-    padding: 12px 24px; /* Adjust padding for a larger button */
-    background-color: #4CAF50; /* Green background color */
-    color: white; /* White text */
-    border: none; /* No border */
-    border-radius: 4px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    font-size: 16px; /* Font size */
-    transition: background-color 0.3s, transform 0.2s; /* Transition for hover effects */
+    padding: 12px 24px;
+    background-color: #4CAF50; 
+    color: white; 
+    border: none; 
+    border-radius: 4px;
+    cursor: pointer; 
+    font-size: 16px; 
+    transition: background-color 0.3s, transform 0.2s; 
 }
 
 /* Hover effect for the Add to Cart button */
 .add-to-cart-btn:hover {
-    background-color: #45a049; /* Darker green on hover */
-    transform: scale(1.05); /* Slightly enlarge on hover */
+    background-color: #45a049; 
+    transform: scale(1.05); 
 }
 
 /* Filter */
@@ -398,24 +422,22 @@ body {
 
 /* Next Button */
 #nextButton {
-    padding: 12px 24px; /* Adjust padding for a larger button */
-    background-color: #007bff; /* Blue background color */
-    color: white; /* White text */
-    border: none; /* No border */
-    border-radius: 4px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    font-size: 16px; /* Font size */
-    transition: background-color 0.3s, transform 0.2s; /* Transition for hover effects */
+    padding: 12px 24px; 
+    background-color: #007bff; 
+    color: white; 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    font-size: 16px; 
+    transition: background-color 0.3s, transform 0.2s; 
 }
 
-/* Hover effect for the Next button */
 #nextButton:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-    transform: scale(1.05); /* Slightly enlarge on hover */
+    background-color: #0056b3; 
+    transform: scale(1.05); 
 }
 
 
-/* Responsive design */
 @media (max-width: 600px) {
     .container {
         padding: 10px; 

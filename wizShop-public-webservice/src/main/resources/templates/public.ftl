@@ -99,76 +99,86 @@
         </div>
 
         <!-- View Product Modal -->
-        <div id="viewModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeViewModal()">&times;</span>
-                
-                <div class="form-group">
-                    <label for="viewProductName">Name:</label>
-                    <p id="viewProductName"></p>
-                </div>
+		<div id="viewModal" class="modal">
+		    <div class="modal-content">
+		        <span class="close" onclick="closeViewModal()">&times;</span>
+		        
+		        <div class="modal-body">
+		            <!-- Product Image on the Left -->
+		            <div class="product-image-container">
+		                <img id="viewProductImage" alt="Product Image" class="modal-product-image">
+		            </div>
+		            
+		            <!-- Product Details on the Right -->
+		            <div class="product-details-container">
+		                <div class="form-group">
+		                    <label for="viewProductName">Name:</label>
+		                    <p id="viewProductName"></p>
+		                </div>
+		
+		                <div class="form-group">
+		                    <label for="viewProductDescription">Description:</label>
+		                    <p id="viewProductDescription"></p>
+		                </div>
+		
+		                <div class="form-group">
+		                    <label for="viewProductPrice">Price:</label>
+		                    <p id="viewProductPrice"></p>
+		                </div>
+		
+		                <div class="form-group">
+		                    <label for="viewProductColour">Colour:</label>
+		                    <p id="viewProductColour"></p>
+		                </div>
+		
+		                <div class="form-group">
+		                    <label for="viewProductGender">Gender:</label>
+		                    <p id="viewProductGender"></p>
+		                </div>
+		
+		                <div class="form-group">
+		                    <label for="viewProductCategory">Category:</label>
+		                    <p id="viewProductCategory"></p>
+		                </div>
+		
+		                <!-- Size and Quantity Selection -->
+		                <div class="form-group size-options">
+		                    <label for="viewProductSizeQuantities">Sizes & Quantities:</label>
+		                    <div id="viewProductSizeQuantities"></div>
+		                </div>
+		
+		                <!-- Quantity Input -->
+		                <div class="form-group">
+		                    <label for="productQuantity">Quantity:</label>
+		                    <input type="number" id="productQuantity" value="1" min="1">
+		                </div>
+		
+		                <!-- Add to Cart Button -->
+		                <div class="form-group">
+		                    <button class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
 
-                <div class="form-group">
-                    <label for="viewProductDescription">Description:</label>
-                    <p id="viewProductDescription"></p>
-                </div>
-
-                <div class="form-group">
-                    <label for="viewProductPrice">Price:</label>
-                    <p id="viewProductPrice"></p>
-                </div>
-
-                <div class="form-group">
-                    <label for="viewProductColour">Colour:</label>
-                    <p id="viewProductColour"></p>
-                </div>
-
-                <div class="form-group">
-                    <label for="viewProductGender">Gender:</label>
-                    <p id="viewProductGender"></p>
-                </div>
-
-                <div class="form-group">
-                    <label for="viewProductCategory">Category:</label>
-                    <p id="viewProductCategory"></p>
-                </div>
-
-                <!-- Size and Quantity Selection -->
-                <div class="form-group size-options">
-                    <label for="viewProductSizeQuantities">Sizes & Quantities:</label>
-                    <div id="viewProductSizeQuantities"></div>
-                </div>
-
-                <!-- Quantity Input -->
-                <div class="form-group">
-                    <label for="productQuantity">Quantity:</label>
-                    <input type="number" id="productQuantity" value="1" min="1">
-                </div>
-
-                <!-- Add to Cart Button -->
-				<div class="form-group">
-				    <button class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
-				</div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- Cart Sidebar -->
-    <div id="cartSidebar" class="cart-sidebar">
-        <div class="cart-header">
-        	Your Cart
-	        <span class="close-cart" onclick="toggleCart()">&times;</span> <!-- Close button -->
-        </div>
-        <div class="cart-items" id="cartItems">
-            <!-- Cart items will be displayed here -->
-        </div>
-        <div class="cart-footer">
-            <p>Total: <span id="cartTotal">0</span></p>
-			<button id="proceedToCheckoutButton" onclick="proceedToCheckout()">Proceed to Checkout</button>
-        </div>
+	    <!-- Cart Sidebar -->
+	    <div id="cartSidebar" class="cart-sidebar">
+	        <div class="cart-header">
+	        	Your Cart
+		        <span class="close-cart" onclick="toggleCart()">&times;</span> <!-- Close button -->
+	        </div>
+	        <div class="cart-items" id="cartItems">
+	            <!-- Cart items will be displayed here -->
+	        </div>
+	        <div class="cart-footer">
+	            <p>Total: <span id="cartTotal">0</span></p>
+				<button id="proceedToCheckoutButton" onclick="proceedToCheckout()">Proceed to Checkout</button>
+	        </div>
+	    </div>
     </div>
 
     <script src="/static/js/public.js"></script>
+    	
 </body>
 </html>
