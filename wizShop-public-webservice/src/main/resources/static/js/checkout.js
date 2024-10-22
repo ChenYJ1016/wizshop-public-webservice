@@ -1,4 +1,5 @@
-// On checkout page load, display cart summary
+// checkout.js
+
 function loadCheckoutSummary() {
     const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
     const summaryDiv = document.getElementById('checkoutSummary');
@@ -13,18 +14,15 @@ function loadCheckoutSummary() {
     });
 }
 
-// Show the delivery address form
 function showAddressForm() {
     document.getElementById('addressForm').style.display = 'block';
 }
 
-// Show payment form
 function showPaymentForm() {
     document.getElementById('addressForm').style.display = 'none';
     document.getElementById('paymentForm').style.display = 'block';
 }
 
-// Send cart details to backend on payment success
 async function processPayment(token) {
     const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
     const deliveryInfo = {
@@ -35,7 +33,6 @@ async function processPayment(token) {
         phone: document.getElementById('phone').value,
     };
 
-    // Get CSRF token from the meta tag
     const csrfToken = document.querySelector('meta[name="_csrf"]').content;
     const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
     
@@ -63,7 +60,6 @@ async function processPayment(token) {
     }
 }
 
-// Initialize Stripe
 function initStripe() {
     const stripe = Stripe('pk_test_51QA4vOEffnZXcLVI8hvB9WS5dpDGtpFtBdQGepvEQ6Rce8kVRDbjWnxkYNDk6eAi5Hw14uve2cC5spEHSpVq7pgl00morrGYHA'); 
     const elements = stripe.elements();

@@ -17,18 +17,17 @@ document.addEventListener('DOMContentLoaded', function() {
     loadCart();
 });
 
-// Load cart items from session storage and display them
 function loadCart() {
     const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
     let total = 0;
 
     const cartItems = document.getElementById('cartItems');
-    cartItems.innerHTML = ''; // Clear the cart items container
+    cartItems.innerHTML = ''; 
 
     cart.forEach(item => {
         const itemElement = document.createElement('div');
         itemElement.classList.add('cart-item');
-        const subPrice = item.quantity * item.productPrice; // Calculate sub price
+        const subPrice = item.quantity * item.productPrice; 
 
         itemElement.innerHTML = `
             <div class="cart-item-details">
@@ -43,12 +42,11 @@ function loadCart() {
         `;
         cartItems.appendChild(itemElement);
 
-        total += subPrice; // Update total with sub-price of each item
+        total += subPrice; 
     });
 
     document.getElementById('cartTotal').innerText = `Total: $${total.toFixed(2)}`;
 
-    // Show the cart sidebar if there are items in the cart
     const cartSidebar = document.getElementById('cartSidebar');
     if (cart.length > 0) {
         cartSidebar.classList.add('show-cart');
@@ -103,7 +101,7 @@ function selectSize(button, size) {
     const allButtons = document.querySelectorAll('.size-options button');
     allButtons.forEach(btn => btn.classList.remove('selected'));
     button.classList.add('selected'); 
-    selectedSize = size; // Store only the size (e.g., "S")
+    selectedSize = size; 
 }
 
 
@@ -130,7 +128,6 @@ function updateCart() {
     totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     cartTotal.textContent = totalAmount.toFixed(2);
     
-    // Show the cart sidebar if there are items in the cart
     if (cart.length > 0) {
         cartSidebar.classList.add('show-cart');
     } else {
@@ -146,9 +143,9 @@ function toggleCart() {
 function addToCart() {
     const productId = document.getElementById('viewModal').dataset.productId;
     const productName = document.getElementById('viewProductName').innerText;
-    const productImageUrl = document.querySelector('.modal-content img').src; // Assuming the product image is displayed in the modal
-    const productPrice = parseFloat(document.getElementById('viewProductPrice').innerText.replace('$', '')); // Convert price to float
-    const quantity = parseInt(document.getElementById('productQuantity').value, 10) || 1; // Get quantity or default to 1
+    const productImageUrl = document.querySelector('.modal-content img').src; 
+    const productPrice = parseFloat(document.getElementById('viewProductPrice').innerText.replace('$', '')); 
+    const quantity = parseInt(document.getElementById('productQuantity').value, 10) || 1; 
 
     if (!selectedSize) {
         alert("Please select a size!");
@@ -159,7 +156,7 @@ function addToCart() {
         productId,
         productName,
         productImageUrl,
-        size: selectedSize.trim(), // This should already hold just the size (e.g., "S")
+        size: selectedSize.trim(), 
         quantity,
         productPrice,
         subTotal: productPrice * quantity 
@@ -173,9 +170,6 @@ function addToCart() {
     closeViewModal();
 }
 
-
-
-// Display cart items in the sidebar
 function displayCart() {
     const cartItems = document.getElementById('cartItems');
     const cart = JSON.parse(sessionStorage.getItem('cart')) || [];

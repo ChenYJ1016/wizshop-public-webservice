@@ -58,12 +58,10 @@ public class PaymentController {
         for (CartItem item : cartItems) {
         	logger.info("cart: {} {} {}", item.getProductId(), item.getSize(), item.getQuantity());
         }
-        // Set the Stripe API key
         Stripe.apiKey = properties.getStripeSecretKey();
 
         String token = paymentRequest.getToken();
         try {
-            // 1. Create the charge with Stripe
             Map<String, Object> chargeParams = new HashMap<>();
             chargeParams.put("amount", calculateTotalAmount(cartItems)); // Calculate total amount
             chargeParams.put("currency", "sgd");
@@ -72,20 +70,16 @@ public class PaymentController {
 
             Charge charge = Charge.create(chargeParams);
 
-            // 2. Check the charge status
             if (!"succeeded".equals(charge.getStatus())) {
-                // Payment failed, return an error response
                 logger.error("Payment failed: {}", charge.getFailureMessage());
                 return ResponseEntity.status(HttpStatus.PAYMENT_REQUIRED)
                         .body(Collections.singletonMap("message", "Payment failed: " + charge.getFailureMessage()));
             }
 
-            // 3. Payment succeeded, continue with order creation logic
             HttpHeaders headers = new HttpHeaders();
             headers.set("X-XSRF-TOKEN", csrfToken);
             HttpEntity<PaymentRequest> request = new HttpEntity<>(paymentRequest, headers);
 
-            // Call your order creation API (common repository service)
             String url = UriComponentsBuilder.fromHttpUrl(properties.getCommonRepoUrl() + "/api/orders/create").toUriString();
             restTemplate.exchange(url, HttpMethod.POST, request, Void.class);
 
@@ -97,7 +91,6 @@ public class PaymentController {
                     .body(Collections.singletonMap("message", e.getMessage()));
 
         } catch (Exception ex) {
-            // Log any other exception that may occur
             logger.error("General error: {}", ex.getMessage(), ex);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Collections.singletonMap("message", ex.getMessage()));
