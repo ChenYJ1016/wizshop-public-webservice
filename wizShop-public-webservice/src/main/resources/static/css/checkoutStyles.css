@@ -101,6 +101,43 @@ button:hover {
     background-color: #d32f2f;
 }
 
+/* Form styles */
+.form {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9; 
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333; 
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s; 
+}
+
+.form-group input:focus {
+    border-color: #007bff; 
+    outline: none; 
+}
+
+
 
 /* Next Button */
 #nextButton {
