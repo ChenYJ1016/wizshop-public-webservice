@@ -54,16 +54,19 @@ public class PaymentController {
 
         List<CartItem> cartItems = paymentRequest.getCart();
         DeliveryInfo delInfo = paymentRequest.getDeliveryInfo();
+       
         logger.info("processPayment(): delivery - {} {} {} {} {} {} ", delInfo.getAddress(), delInfo.getCity(), delInfo.getName(), delInfo.getName(), delInfo.getPhone(), delInfo.getZip());
+        
         for (CartItem item : cartItems) {
         	logger.info("cart: {} {} {}", item.getProductId(), item.getSize(), item.getQuantity());
         }
+        
         Stripe.apiKey = properties.getStripeSecretKey();
 
         String token = paymentRequest.getToken();
         try {
             Map<String, Object> chargeParams = new HashMap<>();
-            chargeParams.put("amount", calculateTotalAmount(cartItems)); // Calculate total amount
+            chargeParams.put("amount", calculateTotalAmount(cartItems)); 
             chargeParams.put("currency", "sgd");
             chargeParams.put("description", "Purchase from wizShop");
             chargeParams.put("source", token);
@@ -97,12 +100,14 @@ public class PaymentController {
         }
     }
 
-    // Calculate total amount in cents based on the cart items
     private int calculateTotalAmount(List<CartItem> cart) {
         int total = 0;
         for (CartItem item : cart) {
-            total += item.getQuantity() * 1000; // Example: 1000 cents = $10 per item
+            total += item.getQuantity() * item.getProductPrice() * 100; // Convert to cents
         }
+        
+        logger.info("total price: " + total);
         return total;
     }
+
 }

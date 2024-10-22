@@ -34,7 +34,7 @@ function loadCart() {
                 <img src="${item.productImageUrl}" alt="${item.productName}" class="cart-item-image">
                 <div>
                     <p>${item.productName}</p>
-                    <p>Size: ${item.size} x ${item.quantity}</p> <!-- This now shows just the size -->
+                    <p>Size: ${item.size} x ${item.quantity}</p>
                     <p>Price: $${parseFloat(item.productPrice).toFixed(2)}</p>
                     <p>Sub-price: $${subPrice.toFixed(2)}</p>
                 </div>
@@ -45,7 +45,8 @@ function loadCart() {
         total += subPrice; 
     });
 
-    document.getElementById('cartTotal').innerText = `Total: $${total.toFixed(2)}`;
+	console.log(total);
+    document.getElementById('cartTotal').innerText = `$${total.toFixed(2)}`;
 
     const cartSidebar = document.getElementById('cartSidebar');
     if (cart.length > 0) {
@@ -103,7 +104,6 @@ function selectSize(button, size) {
     button.classList.add('selected'); 
     selectedSize = size; 
 }
-
 
 function closeViewModal() {
     document.getElementById('viewModal').style.display = 'none';
