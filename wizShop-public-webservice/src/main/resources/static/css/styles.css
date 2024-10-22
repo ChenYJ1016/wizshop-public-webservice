@@ -346,7 +346,38 @@ body {
 }
 
 .cart-item {
+    display: flex;
+    align-items: center; /* Aligns the image and text vertically */
     margin-bottom: 10px;
+    gap: 10px; /* Adds some space between the image and text */
+    padding-bottom: 10px; /* Add some padding for spacing */
+    position: relative; /* Allows us to position the separator */
+}
+
+.cart-item-separator {
+    height: 1px; /* Height of the separator line */
+    background-color: #ddd; /* Color of the separator line */
+    margin: 10px 0; /* Space above and below the line */
+}
+
+
+.cart-item img {
+    width: 200px; /* Adjust as needed */
+    height: 200px; /* Adjust as needed */
+    object-fit: cover; /* Ensures the image maintains its aspect ratio and fills the given space */
+    border-radius: 4px;
+}
+
+.cart-item .cart-item-details {
+    flex-grow: 1; /* Allows the details section to expand and take up remaining space */
+    display: flex;
+    flex-direction: column; /* Stack the product name, size, and price vertically */
+    justify-content: flex-start; /* Align the text to the top */
+}
+
+.cart-item .cart-item-details p {
+    margin: 5px 0; /* Small margin for spacing between paragraphs */
+    font-size: 14px; /* Adjust font size if needed */
 }
 
 .cart-footer {
