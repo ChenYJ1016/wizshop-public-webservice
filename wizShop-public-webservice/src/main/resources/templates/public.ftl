@@ -104,12 +104,10 @@
 		        <span class="close" onclick="closeViewModal()">&times;</span>
 		        
 		        <div class="modal-body">
-		            <!-- Product Image on the Left -->
 		            <div class="product-image-container">
 		                <img id="viewProductImage" alt="Product Image" class="modal-product-image">
 		            </div>
 		            
-		            <!-- Product Details on the Right -->
 		            <div class="product-details-container">
 		                <div class="form-group">
 		                    <label for="viewProductName">Name:</label>
@@ -166,7 +164,7 @@
 	    <div id="cartSidebar" class="cart-sidebar">
 	        <div class="cart-header">
 	        	Your Cart
-		        <span class="close-cart" onclick="toggleCart()">&times;</span> <!-- Close button -->
+		        <span class="close-cart" onclick="toggleCart()">&times;</span> 
 	        </div>
 	        <div class="cart-items" id="cartItems">
 	            <!-- Cart items will be displayed here -->

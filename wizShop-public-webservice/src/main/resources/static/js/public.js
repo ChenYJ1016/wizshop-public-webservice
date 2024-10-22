@@ -42,7 +42,6 @@ function loadCart() {
         `;
         cartItems.appendChild(itemElement);
 
-        // Add separator after each cart item
         const separator = document.createElement('div');
         separator.classList.add('cart-item-separator');
         cartItems.appendChild(separator);
@@ -102,7 +101,6 @@ function openViewModal(productCard) {
         }
     });
 
-    // Reset quantity input when opening modal
     document.getElementById('productQuantity').value = 1;
     document.getElementById('viewModal').style.display = 'block';
 }
@@ -116,7 +114,6 @@ function selectSize(button, size) {
 
 function closeViewModal() {
     document.getElementById('viewModal').style.display = 'none';
-    // Reset selected size and quantity when closing modal
     selectedSize = null;
     document.getElementById('productQuantity').value = 1;
 }
@@ -166,14 +163,11 @@ function addToCart() {
         return;
     }
 
-    // Check if the item already exists in the cart based on productId and selected size
     const existingItemIndex = cart.findIndex(item => item.productId === productId && item.size === selectedSize);
 
     if (existingItemIndex > -1) {
-        // If the item exists, update the quantity
         cart[existingItemIndex].quantity += quantity;
     } else {
-        // If the item doesn't exist, add a new one
         cart.push({
             productId: productId,
             productName: productName,
@@ -187,13 +181,9 @@ function addToCart() {
         });
     }
 
-    // Save the updated cart to session storage
     sessionStorage.setItem('cart', JSON.stringify(cart));
 
-    // Refresh the cart display
     loadCart();
-
-    // Close the modal
     closeViewModal();
 }
 
