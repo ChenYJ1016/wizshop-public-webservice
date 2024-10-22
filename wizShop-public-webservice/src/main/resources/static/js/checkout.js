@@ -12,7 +12,7 @@ function loadCheckoutSummary() {
 
         const itemElement = document.createElement('div');
         itemElement.classList.add('cart-item-summary'); 
-        itemElement.innerHTML = `
+        itemElement.innerHTML = `    
             <div class="checkout-item">
                 <img src="${item.productImageUrl}" alt="${item.productName}" class="checkout-item-image" />
                 <div class="checkout-item-details">
@@ -23,7 +23,7 @@ function loadCheckoutSummary() {
                         <input type="number" value="${item.quantity}" min="1" max="${item.availableQuantity}" onchange="updateQuantity(${index}, this.value)" id="quantity-${index}" />
                     </p>
                     <p>Subtotal: $${subtotal.toFixed(2)}</p>
-                    <button onclick="removeItem(${index})">Remove</button>
+                    <button onclick="removeItem(${index})" class="remove-btn">Remove</button> <!-- Add class for styling -->
                 </div>
             </div>
         `;
@@ -33,6 +33,7 @@ function loadCheckoutSummary() {
     const totalPriceElement = document.getElementById('totalPrice');
     totalPriceElement.innerHTML = `<h3>Total Price: $${totalPrice.toFixed(2)}</h3>`;
 }
+
 
 function updateQuantity(index, newQuantity) {
     const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
