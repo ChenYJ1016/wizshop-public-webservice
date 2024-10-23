@@ -76,6 +76,22 @@ body {
     margin: 5px 0;
 }
 
+.empty-cart-message {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.return-to-shop {
+    color: green;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.return-to-shop:hover {
+    text-decoration: underline;
+}
+
+
 /* Total price positioning */
 #totalPrice {
     margin-top: auto; 

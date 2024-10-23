@@ -3,12 +3,32 @@
 function loadCheckoutSummary() {
     const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
     const summaryDiv = document.getElementById('checkoutSummary');
+    const addressForm = document.getElementById('addressForm');
+    const totalPriceDiv = document.getElementById('totalPrice');
     summaryDiv.innerHTML = ''; 
     let totalPrice = 0; 
 
+    if (cart.length === 0) {
+        // Cart is empty, hide the forms and display the empty cart message
+        addressForm.style.display = 'none';
+        totalPriceDiv.style.display = 'none';
+        
+        const emptyCartMessage = document.createElement('div');
+        emptyCartMessage.classList.add('empty-cart-message');
+        emptyCartMessage.innerHTML = `
+            <h3>Your cart is empty.</h3>
+            <p><a href="/shop" class="return-to-shop">Return to shop</a> to add items to your cart.</p>
+        `;
+        summaryDiv.appendChild(emptyCartMessage);
+        return; 
+    } else {
+        addressForm.style.display = 'block';
+        totalPriceDiv.style.display = 'block';
+    }
+
     cart.forEach((item, index) => {
-        const subtotal = item.productPrice * item.quantity; 
-        totalPrice += subtotal; 
+        const subtotal = item.productPrice * item.quantity;
+        totalPrice += subtotal;
 
         const itemElement = document.createElement('div');
         itemElement.classList.add('cart-item-summary'); 
@@ -23,17 +43,15 @@ function loadCheckoutSummary() {
                         <input type="number" value="${item.quantity}" min="1" max="${item.availableQuantity}" onchange="updateQuantity(${index}, this.value)" id="quantity-${index}" />
                     </p>
                     <p>Subtotal: $${subtotal.toFixed(2)}</p>
-                    <button onclick="removeItem(${index})" class="remove-btn">Remove</button> <!-- Add class for styling -->
+                    <button onclick="removeItem(${index})" class="remove-btn">Remove</button>
                 </div>
             </div>
         `;
         summaryDiv.appendChild(itemElement);
     });
 
-    const totalPriceElement = document.getElementById('totalPrice');
-    totalPriceElement.innerHTML = `<h3>Total Price: $${totalPrice.toFixed(2)}</h3>`;
+    totalPriceDiv.innerHTML = `<h3>Total Price: $${totalPrice.toFixed(2)}</h3>`;
 }
-
 
 function updateQuantity(index, newQuantity) {
     const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
@@ -52,7 +70,6 @@ function updateQuantity(index, newQuantity) {
     sessionStorage.setItem('cart', JSON.stringify(cart));
     loadCheckoutSummary(); 
 }
-
 
 function removeItem(index) {
     const cart = JSON.parse(sessionStorage.getItem('cart')) || [];

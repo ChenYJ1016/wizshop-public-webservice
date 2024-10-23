@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Checkout - wizShop</title>
     <link rel="stylesheet" href="/static/css/checkoutStyles.css">
-    <!-- Add CSRF meta tags to your HTML -->
     <meta name="_csrf" content="${_csrf.token}">
     <meta name="_csrf_header" content="${_csrf.headerName}">
 </head>
@@ -18,15 +17,15 @@
         <div class="checkout-summary">
             <h1>Checkout Summary</h1>
             <div id="checkoutSummary">
-                <!-- Cart items will be displayed here -->
+                <!-- Cart items or empty cart message will be displayed here -->
             </div>
-            <div id="totalPrice"></div>
+            <div id="totalPrice" style="display: none;"></div> <!-- This will be hidden if the cart is empty -->
         </div>
 
         <!-- Forms Section (Right) -->
         <div class="form-section">
             <!-- Delivery Address Form -->
-            <div id="addressForm">
+            <div id="addressForm" style="display: none;"> <!-- Hidden initially -->
                 <h2>Delivery Address</h2>
                 <form id="deliveryForm" class="form">
                     <div class="form-group">
