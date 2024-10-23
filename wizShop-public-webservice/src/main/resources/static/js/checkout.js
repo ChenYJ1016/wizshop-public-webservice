@@ -43,23 +43,22 @@ function updateQuantity(index, newQuantity) {
         return;
     }
 
-    // Check if newQuantity exceeds available quantity
     if (newQuantity > cart[index].availableQuantity) {
         alert(`Cannot set quantity to more than ${cart[index].availableQuantity}.`);
         return;
     }
 
-    cart[index].quantity = parseInt(newQuantity); // Update quantity in cart
-    sessionStorage.setItem('cart', JSON.stringify(cart)); // Update session storage
-    loadCheckoutSummary(); // Refresh the summary
+    cart[index].quantity = parseInt(newQuantity);
+    sessionStorage.setItem('cart', JSON.stringify(cart));
+    loadCheckoutSummary(); 
 }
 
 
 function removeItem(index) {
     const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-    cart.splice(index, 1); // Remove the item from the cart
-    sessionStorage.setItem('cart', JSON.stringify(cart)); // Update session storage
-    loadCheckoutSummary(); // Refresh the summary
+    cart.splice(index, 1); 
+    sessionStorage.setItem('cart', JSON.stringify(cart)); 
+    loadCheckoutSummary(); 
 }
 function showAddressForm() {
     document.getElementById('addressForm').style.display = 'block';

@@ -50,16 +50,11 @@ public class PaymentController {
 
     @PostMapping("/process-payment")
     public ResponseEntity<?> processPayment(@RequestBody PaymentRequest paymentRequest) {
+    	logger.info("Processing payment");
         String csrfToken = getCsrfToken();
 
         List<CartItem> cartItems = paymentRequest.getCart();
         DeliveryInfo delInfo = paymentRequest.getDeliveryInfo();
-       
-        logger.info("processPayment(): delivery - {} {} {} {} {} {} ", delInfo.getAddress(), delInfo.getCity(), delInfo.getName(), delInfo.getName(), delInfo.getPhone(), delInfo.getZip());
-        
-        for (CartItem item : cartItems) {
-        	logger.info("cart: {} {} {}", item.getProductId(), item.getSize(), item.getQuantity());
-        }
         
         Stripe.apiKey = properties.getStripeSecretKey();
 
@@ -106,7 +101,6 @@ public class PaymentController {
             total += item.getQuantity() * item.getProductPrice() * 100; // Convert to cents
         }
         
-        logger.info("total price: " + total);
         return total;
     }
 

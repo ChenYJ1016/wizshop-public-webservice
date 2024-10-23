@@ -163,7 +163,6 @@ function addToCart() {
         return;
     }
     
-     // Get the available quantity from the selected size button
     const selectedSizeButton = [...document.querySelectorAll('#viewProductSizeQuantities button')]
         .find(btn => btn.classList.contains('selected'));
     const availableQuantity = selectedSizeButton ? parseInt(selectedSizeButton.dataset.availableQuantity, 10) : 0;
@@ -186,7 +185,7 @@ function addToCart() {
             productColour: productColour,
             productGender: productGender,
             productCategory: productCategory,
-            size: selectedSize,
+            size: selectedSize.trim(),
             quantity: quantity,
             availableQuantity: availableQuantity
         });
