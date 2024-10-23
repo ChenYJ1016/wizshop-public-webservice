@@ -1,5 +1,65 @@
 // checkout.js
 
+let proceedToPayment = false; 
+
+function validateDeliveryForm() {
+    const name = document.getElementById('name').value;
+    const address = document.getElementById('address').value;
+    const city = document.getElementById('city').value;
+    const zip = document.getElementById('zip').value;
+    const phone = document.getElementById('phone').value;
+
+    if (!name || !address || !city || !zip || !phone) {
+        alert('Please fill out all delivery information.');
+        return false;
+    }
+    return true;
+}
+
+function showPaymentForm() {
+    if (validateDeliveryForm()) {
+        proceedToPayment = true; 
+        document.getElementById('addressForm').style.display = 'none';
+        document.getElementById('paymentForm').style.display = 'block';
+        disableCheckoutModifications();
+    }
+}
+
+function disableCheckoutModifications() {
+    const quantityInputs = document.querySelectorAll('[id^="quantity-"]');
+    const removeButtons = document.querySelectorAll('.remove-btn');
+    
+    quantityInputs.forEach(input => {
+        input.disabled = true; 
+    });
+
+    removeButtons.forEach(button => {
+        button.style.display = 'none'; 
+    });
+}
+
+
+function enableCheckoutModifications() {
+    const quantityInputs = document.querySelectorAll('[id^="quantity-"]');
+    const removeButtons = document.querySelectorAll('.remove-btn');
+    
+    quantityInputs.forEach(input => {
+        input.disabled = false; 
+    });
+
+    removeButtons.forEach(button => {
+        button.style.display = 'inline-block'; 
+    });
+}
+
+
+function goBackToDeliveryForm() {
+    proceedToPayment = false; 
+    document.getElementById('paymentForm').style.display = 'none';
+    document.getElementById('addressForm').style.display = 'block';
+    enableCheckoutModifications(); 
+}
+
 function loadCheckoutSummary() {
     const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
     const summaryDiv = document.getElementById('checkoutSummary');
@@ -9,10 +69,8 @@ function loadCheckoutSummary() {
     let totalPrice = 0; 
 
     if (cart.length === 0) {
-        // Cart is empty, hide the forms and display the empty cart message
         addressForm.style.display = 'none';
         totalPriceDiv.style.display = 'none';
-        
         const emptyCartMessage = document.createElement('div');
         emptyCartMessage.classList.add('empty-cart-message');
         emptyCartMessage.innerHTML = `
@@ -51,7 +109,12 @@ function loadCheckoutSummary() {
     });
 
     totalPriceDiv.innerHTML = `<h3>Total Price: $${totalPrice.toFixed(2)}</h3>`;
+    
+    if (proceedToPayment) {
+        disableCheckoutModifications(); 
+    }
 }
+
 
 function updateQuantity(index, newQuantity) {
     const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
@@ -81,10 +144,7 @@ function showAddressForm() {
     document.getElementById('addressForm').style.display = 'block';
 }
 
-function showPaymentForm() {
-    document.getElementById('addressForm').style.display = 'none';
-    document.getElementById('paymentForm').style.display = 'block';
-}
+
 
 async function processPayment(token) {
     const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
