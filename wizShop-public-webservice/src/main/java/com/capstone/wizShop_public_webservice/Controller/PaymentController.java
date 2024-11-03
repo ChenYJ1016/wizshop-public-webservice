@@ -22,6 +22,7 @@ import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.HtmlUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Collections;
@@ -50,12 +51,25 @@ public class PaymentController {
 
     @PostMapping("/process-payment")
     public ResponseEntity<?> processPayment(@RequestBody PaymentRequest paymentRequest) {
-    	logger.info("Processing payment");
+        logger.info("Processing payment");
+
+        // Retrieve CSRF token safely
         String csrfToken = getCsrfToken();
 
+        // Validate payment request
         List<CartItem> cartItems = paymentRequest.getCart();
         DeliveryInfo delInfo = paymentRequest.getDeliveryInfo();
         
+        if (cartItems == null || cartItems.isEmpty()) {
+            logger.error("Empty cart items received");
+            return ResponseEntity.badRequest().body(Collections.singletonMap("message", "Cart cannot be empty"));
+        }
+        
+        if (delInfo == null || delInfo.getAddress() == null || delInfo.getAddress().trim().isEmpty()) {
+            logger.error("Delivery information is incomplete");
+            return ResponseEntity.badRequest().body(Collections.singletonMap("message", "Delivery information is required"));
+        }
+
         Stripe.apiKey = properties.getStripeSecretKey();
 
         String token = paymentRequest.getToken();
@@ -64,7 +78,7 @@ public class PaymentController {
             chargeParams.put("amount", calculateTotalAmount(cartItems)); 
             chargeParams.put("currency", "sgd");
             chargeParams.put("description", "Purchase from wizShop");
-            chargeParams.put("source", token);
+            chargeParams.put("source", HtmlUtils.htmlEscape(token));
 
             Charge charge = Charge.create(chargeParams);
 
@@ -76,10 +90,10 @@ public class PaymentController {
 
             HttpHeaders headers = new HttpHeaders();
             headers.set("X-XSRF-TOKEN", csrfToken);
-            HttpEntity<PaymentRequest> request = new HttpEntity<>(paymentRequest, headers);
+            HttpEntity<PaymentRequest> requestEntity = new HttpEntity<>(paymentRequest, headers);
 
             String url = UriComponentsBuilder.fromHttpUrl(properties.getCommonRepoUrl() + "/api/orders/create").toUriString();
-            restTemplate.exchange(url, HttpMethod.POST, request, Void.class);
+            restTemplate.exchange(url, HttpMethod.POST, requestEntity, Void.class);
 
             return ResponseEntity.ok(Collections.singletonMap("success", true));
 
@@ -94,6 +108,7 @@ public class PaymentController {
                     .body(Collections.singletonMap("message", ex.getMessage()));
         }
     }
+
 
     private int calculateTotalAmount(List<CartItem> cart) {
         int total = 0;
