@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.HtmlUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.capstone.wizShop_public_webservice.DTO.ProductsDTO;
@@ -76,26 +77,43 @@ public class PublicController {
             HttpHeaders headers = new HttpHeaders();
             HttpEntity<String> entity = new HttpEntity<>(headers);
 
-            UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(properties.getCommonRepoUrl() + "/api/products/search")
-                    .queryParam("query", query);
+            UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(properties.getCommonRepoUrl() + "/api/products/search");
 
-            
-            if (maxPrice != null && maxPrice > 0 && !maxPrice.isInfinite() && !maxPrice.isNaN()) {
-            	uriBuilder.queryParam("maxPrice", maxPrice);
+            // Sanitize query
+            if (query != null && !query.trim().isEmpty()) {
+                uriBuilder.queryParam("query", HtmlUtils.htmlEscape(query.trim()));
             }
-            
-            if (minPrice!= null && minPrice > 0) {
-            	uriBuilder.queryParam("minPrice", minPrice);
+
+            if (maxPrice != null && maxPrice > 0 && !maxPrice.isInfinite() && !maxPrice.isNaN()) {
+                uriBuilder.queryParam("maxPrice", maxPrice);
+            }
+
+            if (minPrice != null && minPrice > 0) {
+                uriBuilder.queryParam("minPrice", minPrice);
             }
 
             if (productCategory != null && !productCategory.isEmpty()) {
-                uriBuilder.queryParam("productCategory", String.join(",", productCategory));
+                String sanitizedCategories = productCategory.stream()
+                        .map(HtmlUtils::htmlEscape)
+                        .reduce((cat1, cat2) -> cat1 + "," + cat2)
+                        .orElse("");
+                uriBuilder.queryParam("productCategory", sanitizedCategories);
             }
+
             if (productColour != null && !productColour.isEmpty()) {
-                uriBuilder.queryParam("productColour", String.join(",", productColour));
+                String sanitizedColours = productColour.stream()
+                        .map(HtmlUtils::htmlEscape)
+                        .reduce((color1, color2) -> color1 + "," + color2)
+                        .orElse("");
+                uriBuilder.queryParam("productColour", sanitizedColours);
             }
+
             if (productGender != null && !productGender.isEmpty()) {
-                uriBuilder.queryParam("productGender", String.join(",", productGender));
+                String sanitizedGenders = productGender.stream()
+                        .map(HtmlUtils::htmlEscape)
+                        .reduce((gender1, gender2) -> gender1 + "," + gender2)
+                        .orElse("");
+                uriBuilder.queryParam("productGender", sanitizedGenders);
             }
 
             String url = uriBuilder.toUriString();
@@ -109,5 +127,6 @@ public class PublicController {
             return "error";
         }
     }
+
 
 }
