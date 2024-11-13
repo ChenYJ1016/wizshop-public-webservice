@@ -25,33 +25,72 @@ function loadCart() {
     cartItems.innerHTML = ''; 
 
     cart.forEach((item, index) => {
+        const subPrice = item.quantity * item.productPrice;
+
+        // Create a container for each item with quantity controls and remove button
         const itemElement = document.createElement('div');
         itemElement.classList.add('cart-item');
-        const subPrice = item.quantity * item.productPrice; 
-
         itemElement.innerHTML = `
             <div class="cart-item-details">
                 <img src="${item.productImageUrl}" alt="${item.productName}" class="cart-item-image">
                 <div>
                     <p>${item.productName}</p>
-                    <p>Size: ${item.size} x ${item.quantity}</p>
-                    <p>Price: $${parseFloat(item.productPrice).toFixed(2)}</p>
+                    <p>Size: ${item.size}</p>
+                    <p>Price: $${item.productPrice.toFixed(2)}</p>
                     <p>Sub-price: $${subPrice.toFixed(2)}</p>
+                    
+                    <div class="quantity-controls">
+                        <button onclick="updateQuantity(${index}, -1)">-</button>
+                        <span>${item.quantity}</span>
+                        <button onclick="updateQuantity(${index}, 1)">+</button>
+                    </div>
+                    
+                    <button onclick="removeFromCart(${index})" class="remove-item-btn">Remove</button>
                 </div>
             </div>
         `;
+
         cartItems.appendChild(itemElement);
-
-        const separator = document.createElement('div');
-        separator.classList.add('cart-item-separator');
-        cartItems.appendChild(separator);
-
-        total += subPrice; 
+        total += subPrice;
     });
 
     document.getElementById('cartTotal').innerText = `$${total.toFixed(2)}`;
+
+    // Show or hide the "Proceed to Checkout" button based on cart content
+    const proceedToCheckoutButton = document.getElementById('proceedToCheckoutButton');
+    proceedToCheckoutButton.style.display = cart.length > 0 ? 'block' : 'none';
+
     const cartSidebar = document.getElementById('cartSidebar');
     cartSidebar.classList.toggle('show-cart', cart.length > 0);
+}
+
+
+
+// Function to update quantity with validation
+function updateQuantity(index, change) {
+    const item = cart[index];
+    const newQuantity = item.quantity + change;
+
+    // Validate the new quantity
+    if (newQuantity <= 0) {
+        // If quantity is 0 or below, remove item from cart
+        removeFromCart(index);
+    } else if (newQuantity > item.availableQuantity) {
+        // Show alert if trying to add more than available stock
+        alert(`Only ${item.availableQuantity} items available for this size.`);
+    } else {
+        // Update quantity if within the valid range
+        item.quantity = newQuantity;
+        sessionStorage.setItem('cart', JSON.stringify(cart));
+        loadCart(); // Refresh cart display
+    }
+}
+
+// Function to remove an item from the cart
+function removeFromCart(index) {
+    cart.splice(index, 1); // Remove item at the given index
+    sessionStorage.setItem('cart', JSON.stringify(cart));
+    loadCart(); // Refresh cart display
 }
 
 function openViewModal(productCard) {
@@ -157,42 +196,54 @@ function addToCart() {
     const productGender = document.getElementById('viewProductGender').innerText;
     const productCategory = document.getElementById('viewProductCategory').innerText;
     const quantity = parseInt(document.getElementById('productQuantity').value, 10);
-    
-    if (!selectedSize) {
+
+    // Ensure selectedSize is set from the selected button
+    const selectedSizeButton = document.querySelector('#viewProductSizeQuantities button.selected');
+    if (!selectedSizeButton) {
         alert('Please select a size.');
         return;
     }
-    
-    const selectedSizeButton = [...document.querySelectorAll('#viewProductSizeQuantities button')]
-        .find(btn => btn.classList.contains('selected'));
-    const availableQuantity = selectedSizeButton ? parseInt(selectedSizeButton.dataset.availableQuantity, 10) : 0;
+
+    selectedSize = selectedSizeButton.textContent.split(' ')[0];
+    const availableQuantity = parseInt(selectedSizeButton.dataset.availableQuantity, 10);
 
     if (quantity > availableQuantity) {
         alert(`Cannot add more than available quantity (${availableQuantity}).`);
         return;
     }
 
-    const existingItemIndex = cart.findIndex(item => item.productId === productId && item.size === selectedSize);
+    // Check if the item with the same productId and size already exists in the cart
+    const existingItemIndex = cart.findIndex(
+        item => item.productId === productId && item.size === selectedSize
+    );
 
     if (existingItemIndex > -1) {
+        // Update the quantity of the existing item
         cart[existingItemIndex].quantity += quantity;
+
+        // Ensure quantity does not exceed the available quantity
+        if (cart[existingItemIndex].quantity > availableQuantity) {
+            cart[existingItemIndex].quantity = availableQuantity; // Cap to available quantity
+            alert(`Only ${availableQuantity} items available for this size.`);
+        }
     } else {
+        // Add a new item to the cart if it does not exist
         cart.push({
-            productId: productId,
-            productName: productName,
-            productPrice: productPrice,
-            productImageUrl: productImageUrl,
-            productColour: productColour,
-            productGender: productGender,
-            productCategory: productCategory,
-            size: selectedSize.trim(),
-            quantity: quantity,
-            availableQuantity: availableQuantity
+            productId,
+            productName,
+            productPrice,
+            productImageUrl,
+            productColour,
+            productGender,
+            productCategory,
+            size: selectedSize,
+            quantity,
+            availableQuantity,
         });
     }
 
+    // Save the updated cart to sessionStorage and refresh the cart display
     sessionStorage.setItem('cart', JSON.stringify(cart));
-
     loadCart();
     closeViewModal();
 }
