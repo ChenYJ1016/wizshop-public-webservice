@@ -159,7 +159,7 @@ async function processPayment(token) {
     const csrfToken = document.querySelector('meta[name="_csrf"]').content;
     const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
     
-    const response = await fetch('/process-payment', {
+    const response = await fetch('/shop/process-payment', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

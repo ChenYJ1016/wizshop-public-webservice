@@ -268,5 +268,5 @@ function displayCart() {
 }
 
 function proceedToCheckout() {
-    window.location.href = '/checkout';
+    window.location.href = '/shop/checkout';
 }

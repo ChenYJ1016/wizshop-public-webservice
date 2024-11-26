@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Checkout - wizShop</title>
-    <link rel="stylesheet" href="/static/css/checkoutStyles.css">
+    <link rel="stylesheet" href="/static/public/css/checkoutStyles.css">
     <meta name="_csrf" content="${_csrf.token}">
     <meta name="_csrf_header" content="${_csrf.headerName}">
 </head>
@@ -70,7 +70,7 @@
     </div>
 
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="/static/js/checkout.js"></script>
+    <script src="/static/public/js/checkout.js"></script>
     <script>
         window.onload = function () {
             loadCheckoutSummary();

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>wizShop</title>
-    <link rel="stylesheet" href="/static/css/publicStyles.css">
-    <link rel="icon" href="/static/icon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/public/css/publicStyles.css">
+    <link rel="icon" href="/static/public/icon/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
@@ -176,7 +176,7 @@
 	    </div>
     </div>
 
-    <script src="/static/js/public.js"></script>
+    <script src="/static/public/js/public.js"></script>
     	
 </body>
 </html>

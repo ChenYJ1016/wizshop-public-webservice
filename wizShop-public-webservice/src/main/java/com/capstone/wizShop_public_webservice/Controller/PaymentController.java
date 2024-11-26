@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/shop")
 public class PaymentController {
 
     @Autowired
@@ -53,10 +54,8 @@ public class PaymentController {
     public ResponseEntity<?> processPayment(@RequestBody PaymentRequest paymentRequest) {
         logger.info("Processing payment");
 
-        // Retrieve CSRF token safely
         String csrfToken = getCsrfToken();
 
-        // Validate payment request
         List<CartItem> cartItems = paymentRequest.getCart();
         DeliveryInfo delInfo = paymentRequest.getDeliveryInfo();
         
